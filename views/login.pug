@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= "LOGIN"
+  body
+  div 
+    form(action='/login' method='POST')
+      p
+        input(type='email' name='email' value='' pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" placeholder="E-Mail",required)
+        br
+        input(type='password' name='password' value='' pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password",required)
+        button(type="submit") Log In 

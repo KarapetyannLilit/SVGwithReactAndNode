@@ -5,6 +5,7 @@ block content
   body
   div 
     form(action='/login' method='POST')
+      div(style="color:red")=errorMessage
       p
         input(type='email' name='email' value='' pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" placeholder="E-Mail",required)
         br

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= "uploaded files"
+  body
+  div 
+      div(style="color:red")=errorMessage
+      p
+        
+        - for (var i = 0; i < imgN.length; ++i) {
+        img(src=`../uploads/${imgN[i]}` alt='login' style='width:100px; height:100px;')
+        - }
+
+

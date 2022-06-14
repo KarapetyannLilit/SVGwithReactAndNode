@@ -4,7 +4,7 @@ block content
   h1= "REGISTER"
   body
   div 
-    form(action='/register' method='POST' enctype="multipart/form-data")
+    form(action='/register' method='POST' )
       div(style="color:red")=errorMessage
       p
         input(type='text' name='name' value=name placeholder="UserName", required)
@@ -13,7 +13,7 @@ block content
         br
         input(type='password' name='password' value='' placeholder="Password",required)
         br
-        input(type='file' name='file' accept="image/png, image/jpeg,image/svg+xml")
+        //- input(type='file' name='file' accept="image/png, image/jpeg,image/svg+xml")
 
         button(type="submit") Sign Up
 

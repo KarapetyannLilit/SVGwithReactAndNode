@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= "upload file"
+  body
+  div 
+    form(action='/uploadfile' method='POST' enctype="multipart/form-data")
+      div(style="color:red")=errorMessage
+      p
+        input(type='file' name='file' accept="image/png, image/jpeg,image/svg+xml")
+        button(type="submit") Sign Up
+

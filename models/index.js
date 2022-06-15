@@ -6,10 +6,10 @@ const db = {
 
 const connect = async () => {
     const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'lilit',
-        password: '$l5i9l1i7t$',
-        database: 'appregister',
+        host: '173.249.39.10',
+        user: 'lilit_test',
+        password: '123456',
+        database: 'lilit_test',
         port: 3306
     });
     db.connection = connection

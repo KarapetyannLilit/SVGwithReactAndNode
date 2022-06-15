@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 const db = require('../models')
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid')
-const appPath = require('../constants');
+const appPath = require('../constants').default;
+
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -14,41 +15,39 @@ const fileStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const extention = file.originalname.split('.').pop();
-    file.originalname = file.originalname.replace(file.originalname, uuidv4() + "." + extention)
+    file.originalname = uuidv4() + "." + extention;
+    console.log(upload.limits.mimetype[file.mimetype], file.mimetype);
+
     cb(null, file.originalname)
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf' && file.size > 2 * 1014 * 1024) {
+      return cb(new Error('File too large'))
+    }
   }
 })
 
+router.use(express.json());
 router.use('/uploads', express.static(appPath + '/uploads'))
 router.use(express.static('public'));
+
+const TYPE_ACCEPTED = {
+  'image/png': 'png',
+  'image/jpeg': 'jpeg',
+  'image/jpg': 'jpg',
+  'image/svg+xml':'svg',
+  'application/pdf':'pdf' /// pordzum ei
+}
 
 const upload = multer({
   limits: {
     fileSize: 4 * 1024 * 1024,
+    mimetype: TYPE_ACCEPTED
   },
   storage: fileStorage
 });
 
 
-router.use(express.json());
-
-// const testFolder = './uploads/';
-
-// const json = fs.readdir(testFolder, (err, files) => {
-//   const fileObj = []
-//   files.forEach((file, i) => {
-//     fileObj.push({ id: i, name: file })
-//   });
-//   console.log(fileObj);
-//   return JSON.stringify(fileObj);
-// })
-
-
-// fs.promises.writeFile(path.resolve("data.json"), json).then(() => {
-//   console.log('The file has been saved!');
-// }).catch(error => {
-//   console.log(error)
-// });
 
 router.get('/', (req, res, next) => {
   res.render('index', { title: 'Want to register' });
@@ -83,39 +82,36 @@ router.post("/register", async (req, res, next) => {
 })
 
 router.get('/uploadfile', upload.single('file'), (req, res, next) => {
-  res.render('file', { errorMessage: null })
+  res.render('file', { errorMessage: null, accepted_types: Object.keys(upload.limits.mimetype).toString() })
 });
 
 router.post("/uploadfile", upload.single('file'), async (req, res, next) => {
-  const filePath = req.file.path
-  const src = filePath.replace(appPath, "")
+  const filePathInApp = req.file.path.replace(appPath, "")
   const [[userId], fieldsId] = await db.connection.execute(`SELECT id FROM user WHERE id=(SELECT max(id) FROM user)`);
-  const sqlFile = `INSERT INTO files (userID, name, size,path,mimetype) VALUES ('${userId.id}','${req.file.originalname}','${req.file.size}','${src}', '${req.file.mimetype}')`;
+  const sqlFile = `INSERT INTO file (userID, name, size,path,mimetype) VALUES ('${userId.id}','${req.file.originalname}','${req.file.size}','${filePathInApp}', '${req.file.mimetype}')`;
   const querryFile = await db.connection.execute(sqlFile)
-
   if (querryFile) {
-    return res.send(`You have uploaded this image: <hr/><img src="${src}" width="500"><hr /><a href="./allfiles">see how many files you have</a>`);
+    return res.send(`You have uploaded this image: <hr/><img src="${filePathInApp}" width="500"><hr /><a href="./allfiles">see how many files you have</a>`);
   } else {
     return console.error('error connecting: ' + err.message);
   }
 });
 
 router.get('/allfiles', upload.single('file'), (req, res, next) => {
-  const testFolder = './uploads/';
-  const a = fs.readdirSync(path.resolve("uploads"))
+  const files = fs.readdirSync(path.resolve("uploads"))
   let obj = []
-  let src = []
-  a.map((el, i) => {
+  let imageNames = []
+  files.map((el, i) => {
     obj.push({ id: i, file: el })
-    src.push(el)
+    imageNames.push(el)
   })
-  const json = JSON.stringify(obj)
-  fs.promises.writeFile(path.resolve("data.json"), json).then(() => {
+  const jsonObj = JSON.stringify(obj)
+  fs.promises.writeFile(path.resolve("data.json"), jsonObj).then(() => {
     console.log('The file has been saved!');
   }).catch(error => {
     console.log(error)
   });
-  return res.render('allfiles', { imgN: src })
+  return res.render('allfiles', { imgN: imageNames })
 });
 
 router.get('/login', (req, res, next) => {
@@ -124,7 +120,6 @@ router.get('/login', (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
-
   const [[passwordFromSQL], fieldsPassword] = await db.connection.execute(`SELECT password FROM user WHERE email = "${email}"`);
   if (passwordFromSQL) {
     if (bcrypt.compareSync(password, passwordFromSQL.password) === true) {

@@ -23,7 +23,7 @@ form {
   flex-direction: column;
   border-radius: 15px;
   width: 500px;
-  padding: 20px;
+  padding: 20px;  
   box-shadow: 0 4px 4px 4px rgb(155, 99, 162);
 }
 
@@ -35,6 +35,7 @@ form {
 .inputs {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 input {

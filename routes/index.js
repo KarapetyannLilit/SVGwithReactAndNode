@@ -107,7 +107,7 @@ router.post("/uploadfile", upload.single('file'), async (req, res, next) => {
                 num++
               }
               else if (node.attribs.class) {
-                node.attribs.class += `changable-color-${num}`
+                node.attribs.class += ` changable-color-${num}`
                 $('style').text().includes(node.attribs.class)
                 num++
               }

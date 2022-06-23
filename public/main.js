@@ -20,7 +20,7 @@ var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     onClick: function onClick() {}
   }, "ASDASDASDS Welcome to React App thats build using Webpack", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("object", {
-    data: "/a.svg",
+    data: "copySVG/a.svg",
     width: "200"
   }));
 };

@@ -6,8 +6,10 @@ const bcrypt = require('bcrypt');
 const db = require('../models')
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid')
-const appPath = require('../constants').default;
-
+const sharp = require('sharp');
+const appPath = require('../constants');
+const xmldom = require('xmldom');
+const cheerio = require('cheerio');
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -51,12 +53,118 @@ router.get('/', (req, res, next) => {
   res.render('index', { title: 'Svg Test APP   ' });
 });
 
-router.post("/", (req, res, next) => {
-  res.redirect('/register');
+router.get('/svg', (req, res) => {
+  //res.header("Content-type", "text/svg")
+  res.sendFile(path.join(__dirname, '\\..\\copySVG\\a.svg'))
+})
+
+
+router.get('/uploadfile', upload.single('file'), (req, res, next) => {
+  res.render('uploadfile', { errorMessage: null, accepted_types: Object.keys(upload.limits.mimetype).toString() })
 });
 
-router.get('/register', (req, res, next) => {
-  res.render('register', { errorMessage: null })
+router.post("/uploadfile", upload.single('file'), async (req, res, next) => {
+  if (req.file.mimetype === "image/svg+xml") {
+    fs.readFile(req.file.path, { encoding: 'utf-8' }, (err, data) => {
+      if (!err) {
+        const svgHTML = new xmldom.DOMParser().parseFromString(data, "image/svg+xml");
+        const svgList = svgHTML.getElementsByTagName('svg');
+        if (!svgList) {
+          console.log("error not found");
+        }
+        const svg = svgList.item(0);
+        svg.setAttribute('width', '300px');;
+        let num = 0
+        const serializer = new xmldom.XMLSerializer();
+        const serialized = serializer.serializeToString(svgHTML)
+        const $ = cheerio.load(serialized, null, false)
+
+        const addClassName = (node) => {
+          if (!(node.name === "defs" || node.name === "style")) {
+            if (node.attribs) {
+              if (!node.attribs.class) {
+                node.attribs.class = `changable-color-${num}`
+                if (node.attribs.fill) {
+                  const fill = node.attribs.fill
+                  if (fill.includes("url")) {
+                    const url = fill.replace("url(", "").replace(")", "")
+                    $(`${url}`)[0].children.map(child => {
+                      child.attribs.class += ` ${child.attribs.id}`
+                    })
+                  }
+                }
+                if (node.attribs.stroke) {
+                  const stroke = node.attribs.stroke
+                  if (stroke.includes("url")) {
+                    const url = stroke.replace("url(", "").replace(")", "")
+                    $(`${url}`)[0].children.map(child => {
+                      child.attribs.class += ` ${child.attribs.id}`
+                    })
+                  }
+                }
+                num++
+              }
+              else if (node.attribs.class) {
+                node.attribs.class += `changable-color-${num}`
+                $('style').text().includes(node.attribs.class)
+                num++
+              }
+            }
+          }
+        }
+
+        const findEachChild = (node) => {
+          if (node) {
+            const children = node.children
+            if (children && children.length) {
+              children.forEach((child) => {
+                findEachChild(child)
+              })
+            }
+            else {
+              addClassName(node)
+            }
+          }
+        }
+        findEachChild($('svg')[0])
+        console.log($.html());
+
+        fs.promises.writeFile(`public/copySVG/copySVG${req.file.originalname}`, $.html())
+          .then(() => {
+            console.log('The file has been saved!');
+            res.redirect('/')
+          }).catch(error => {
+            console.log(error)
+          });
+      } else {
+        console.log("err");
+      }
+    });
+
+  }
+  else {
+    sharp(req.file.path)
+      .resize({
+        width: 150,
+        height: 97
+      })
+      .toFile(`./resizedCopies/copyResized${req.file.originalname}`)
+      .then(function (info) {
+        console.log(info)
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  }
 });
+
+
+// router.post("/", (r  eq, res, next) => {
+//   res.redirect('/register');
+// });
+
+// router.get('/register', (req, res, next) => {
+//   res.render('register', { errorMessage: null })
+// });
 
 module.exports = router;

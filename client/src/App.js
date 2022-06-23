@@ -4,7 +4,7 @@ const App = () => {
     return (
         <h1 onClick={() => { }}>ASDASDASDS
             Welcome to React App thats build using Webpack
-            <object data="/a.svg" width="200"></object>
+            <object data="copySVG/a.svg" width="200"></object>
         </h1>
     )
 }

@@ -54,8 +54,27 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/svg', (req, res) => {
-  //res.header("Content-type", "text/svg")
-  res.sendFile(path.join(__dirname, '\\..\\copySVG\\a.svg'))
+  const files = fs.readdirSync("./public/copySVG")
+  const dates = []
+  for (const file of files) {
+    const stat = fs.lstatSync(path.join("./public/copySVG", file))
+    dates.push(stat.mtime)
+  }
+  const lastEdititedDAte = new Date(
+    Math.max(
+      ...dates.map(element => {
+        return new Date(element);
+      }),
+    ),
+  )
+  for (const file of files) {
+    const stat = fs.lstatSync(path.join("./public/copySVG", file))
+    if (stat.mtime.toDateString() === lastEdititedDAte.toDateString()) {
+      // res.send(file)
+      res.sendFile(path.resolve("./public/copySVG", file))
+      return
+    }
+  }
 })
 
 
@@ -159,14 +178,5 @@ router.post("/uploadfile", upload.single('file'), async (req, res, next) => {
       })
   }
 });
-
-
-// router.post("/", (r  eq, res, next) => {
-//   res.redirect('/register');
-// });
-
-// router.get('/register', (req, res, next) => {
-//   res.render('register', { errorMessage: null })
-// });
 
 module.exports = router;

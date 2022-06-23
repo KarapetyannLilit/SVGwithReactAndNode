@@ -1,0 +1,22 @@
+<svg id="eZuN3LkGOUi1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 640 480" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+    <defs>
+        <filter id="eZuN3LkGOUi2-filter" x="-150%" width="400%" y="-150%" height="400%">
+            <feGaussianBlur id="eZuN3LkGOUi2-filter-drop-shadow-0-blur" in="SourceAlpha" stdDeviation="0,0" />
+            <feOffset id="eZuN3LkGOUi2-filter-drop-shadow-0-offset" dx="0" dy="0" result="tmp" />
+            <feFlood id="eZuN3LkGOUi2-filter-drop-shadow-0-flood" flood-color="#252424" />
+            <feComposite id="eZuN3LkGOUi2-filter-drop-shadow-0-composite" operator="in" in2="tmp" />
+            <feMerge id="eZuN3LkGOUi2-filter-drop-shadow-0-merge">
+                <feMergeNode id="eZuN3LkGOUi2-filter-drop-shadow-0-merge-node-1" />
+                <feMergeNode id="eZuN3LkGOUi2-filter-drop-shadow-0-merge-node-2" in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <radialGradient id="eZuN3LkGOUi2-fill" cx="0" cy="0" r="0.5" spreadMethod="pad" gradientUnits="objectBoundingBox" gradientTransform="translate(0.5 0.5)">
+            <stop id="eZuN3LkGOUi2-fill-0" offset="0%" stop-color="#988c38" />
+            <stop id="eZuN3LkGOUi2-fill-1" offset="22%" stop-color="#01d7e8" />
+            <stop id="eZuN3LkGOUi2-fill-2" offset="54%" stop-color="#7e857d" />
+            <stop id="eZuN3LkGOUi2-fill-3" offset="81%" stop-color="#cc146d" />
+            <stop id="eZuN3LkGOUi2-fill-4" offset="100%" stop-color="#6773c7" />
+        </radialGradient>
+    </defs>
+    <polygon points="37.604614,-64 117.798388,-24.387547 137.604614,64.620826 82.108801,135.999999 -6.899573,135.999999 -62.395386,64.620826 -42.58916,-24.387547 37.604614,-64" transform="translate(300 200)" filter="url(#eZuN3LkGOUi2-filter)" fill="url(#eZuN3LkGOUi2-fill)" stroke="#000" stroke-width="7" stroke-dashoffset="6" />
+</svg>

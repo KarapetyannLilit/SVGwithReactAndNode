@@ -34,39 +34,39 @@ const getStyleType = (node) => {
     }
 }
 
-let num = 0
+// let num = 0
 
-const addClassName = (node) => {
-    if (!(node.tagName === "STYLE")) {
-        if (!node.classList.value) {
-            const fill = window.getComputedStyle(node).fill
-            const stroke = window.getComputedStyle(node).stroke
-            let style = document.createElement("style")
-            style.type = "text/css"
-            if (node.id) {
-                const stopColor = window.getComputedStyle(node).stopColor
-                style.innerHTML = `.${node.id}  { fill: ${fill}; stroke:${stroke}; stop-color:${stopColor}; }`
-                ShapeRef.current.appendChild(style)
-                node.classList.value = node.id
-            } else {
-                style.innerHTML = `.${"class" + num
-                    } { fill: ${fill}; stroke:${stroke} ; }`
-                ShapeRef.current.appendChild(style)
-                node.classList.value = "class" + num
-            }
-        }
-        num++
-    }
-}
+// const addClassName = (node) => {
+//     if (!(node.tagName === "STYLE")) {
+//         if (!node.classList.value) {
+//             const fill = window.getComputedStyle(node).fill
+//             const stroke = window.getComputedStyle(node).stroke
+//             let style = document.createElement("style")
+//             style.type = "text/css"
+//             if (node.id) {
+//                 const stopColor = window.getComputedStyle(node).stopColor
+//                 style.innerHTML = `.${node.id}  { fill: ${fill}; stroke:${stroke}; stop-color:${stopColor}; }`
+//                 ShapeRef.current.appendChild(style)
+//                 node.classList.value = node.id
+//             } else {
+//                 style.innerHTML = `.${"class" + num
+//                     } { fill: ${fill}; stroke:${stroke} ; }`
+//                 ShapeRef.current.appendChild(style)
+//                 node.classList.value = "class" + num
+//             }
+//         }
+//         num++
+//     }
+// }
 
 const findEachChild = (node) => {
+    console.log(node);
     const children = Array.from(node.children)
     if (children.length) {
         children.forEach((child) => {
             findEachChild(child)
         })
     } else {
-        addClassName(node)
         getStyleType(node)
     }
 }
@@ -125,12 +125,10 @@ const setDefaultStyle = (node) => {
     node.dataset.currentStyle = style
 }
 
-let ShapeRef
 export const clicked = (node) => {
-    ShapeRef = node
     globalObj.groupedElementsByClassName.fill = {}
     globalObj.groupedElementsByClassName.stroke = {}
-    findEachChild(node.current)
+    findEachChild(node)
 }
 
 export const GlobalObj = () => globalObj

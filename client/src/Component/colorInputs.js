@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from "react"
 import { ColorSlider } from "./colorSlider"
 import { newInputs } from "./commonFunctions"
-export const ColorInputs = ({ ShapeRef, globalInfo }) => {
+export const ColorInputs = ({ SVG, globalInfo }) => {
     const [filterdFill, setfilterdFill] = useState([])
     const [filterdStroke, setfilterdStroke] = useState([])
     const mergeButton = useRef()
     // const [elms, setElms] = useState([])
     const elms = []
     const checks = []
+    console.log(SVG);
     useEffect(() => {
-        ShapeRef.current.addEventListener("click", function ankap() {
+        SVG.addEventListener("click", function ankap() {
             newInputs(setfilterdFill, setfilterdStroke, globalInfo)
-            ShapeRef.current.removeEventListener("click", ankap)
+            SVG.removeEventListener("click", ankap)
         })
     }, [])
 
@@ -35,7 +36,7 @@ export const ColorInputs = ({ ShapeRef, globalInfo }) => {
                                     globalInfo.groupedElementsByClassName.fill[className].element
                                 }
                                 type={"fill"}
-                                ShapeRef={ShapeRef}
+                                SVG={SVG}
                                 name={className}
                                 mergeRef={mergeButton}
                                 setfilterdFill={setfilterdFill}
@@ -59,7 +60,7 @@ export const ColorInputs = ({ ShapeRef, globalInfo }) => {
                                     globalInfo.groupedElementsByClassName.stroke[className].element
                                 }
                                 type={"stroke"}
-                                ShapeRef={ShapeRef}
+                                SVG={SVG}
                                 name={className}
                                 mergeRef={mergeButton}
                                 setfilterdFill={setfilterdFill}
@@ -82,7 +83,7 @@ export const ColorInputs = ({ ShapeRef, globalInfo }) => {
                                     globalInfo.groupedElementsByClassName.fill[className].element
                                 }
                                 type={"fill"}
-                                ShapeRef={ShapeRef}
+                                SVG={SVG}
                                 name={className}
                                 mergeRef={mergeButton}
                                 setfilterdFill={setfilterdFill}
@@ -108,7 +109,7 @@ export const ColorInputs = ({ ShapeRef, globalInfo }) => {
                                     globalInfo.groupedElementsByClassName.stroke[className].element
                                 }
                                 type={"stroke"}
-                                ShapeRef={ShapeRef}
+                                SVG={SVG}
                                 name={className}
                                 mergeRef={mergeButton}
                                 setfilterdFill={setfilterdFill}

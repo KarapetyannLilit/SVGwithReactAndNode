@@ -1,11 +1,11 @@
 import React from "react";
+import Find from './Component/find';
 
 const App = () => {
     return (
-        <h1 onClick={() => { }}>ASDASDASDS
-            Welcome to React App thats build using Webpack
-            <object data="copySVG/a.svg" width="200"></object>
-        </h1>
+        <div>
+            <Find />
+        </div>
     )
 }
 

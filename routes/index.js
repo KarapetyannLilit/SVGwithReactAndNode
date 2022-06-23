@@ -89,7 +89,9 @@ router.post("/uploadfile", upload.single('file'), async (req, res, next) => {
                   if (fill.includes("url")) {
                     const url = fill.replace("url(", "").replace(")", "")
                     $(`${url}`)[0].children.map(child => {
-                      child.attribs.class += ` ${child.attribs.id}`
+                      if (child.attribs) {
+                        child.attribs.class += ` ${child.attribs.id}`
+                      }
                     })
                   }
                 }

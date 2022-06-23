@@ -7,7 +7,7 @@ export const ColorSlider = ({
     elements,
     type,
     mergeRef,
-    ShapeRef,
+    SVG,
     setfilterdFill,
     setfilterdStroke,
     checks,
@@ -76,7 +76,7 @@ export const ColorSlider = ({
         //  newSVG = ShapeRef.current.innerHTML
         //  ShapeRef.current = `<svg ref = ${ShapeRef}> ${newSVG} </svg>`
         //  // ShapeRef.current.appendChild(newSVG);
-        clicked(ShapeRef)
+        clicked(SVG)
         newInputs(setfilterdFill, setfilterdStroke, globalInfo)
         elms = []
     }
@@ -88,7 +88,7 @@ export const ColorSlider = ({
         }
     })
     const addShadow = () => {
-        const children = Array.from(ShapeRef.current.children)
+        const children = Array.from(SVG.children)
         for (const elem of children) {
             if (elem.classList.value !== name) {
                 elem.style.visibility = "hidden"
@@ -96,7 +96,7 @@ export const ColorSlider = ({
         }
     }
     const removeShadow = () => {
-        const children = Array.from(ShapeRef.current.children)
+        const children = Array.from(SVG.children)
         for (const elem of children) {
             if (elem.classList.value !== name) {
                 elem.style.visibility = "visible"

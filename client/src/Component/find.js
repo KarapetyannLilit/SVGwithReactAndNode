@@ -5,26 +5,37 @@ import { ColorInputs } from "./colorInputs"
 const Find = () => {
     const [globalObjRefactor, setGlobalObjRefactor] = useState()
     const ShapeRef = useRef()
+    const buttonRef = useRef()
+
 
     useEffect(() => {
-        console.log('useefffeef')
         if (ShapeRef.current) {
             ShapeRef.current.addEventListener("load", () => {
-                console.log(ShapeRef.current.contentDocument)
+                console.log(ShapeRef.current.contentDocument.children[0])
             }, false);
         }
     }, [])
 
+    useEffect(() => {
+        buttonRef.current.addEventListener("click", handleClick)
+        return () => {
+            buttonRef.current.removeEventListener("click", handleClick)
+        }
+    })
+
+
     const handleClick = () => {
-        clicked(ShapeRef)
+        clicked(ShapeRef.current.contentDocument.children[0])
         setGlobalObjRefactor(GlobalObj())
     }
 
     return (
         <div>
-            <object ref={ShapeRef} type='image/svg+xml' data="http://devserver.am:3000/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg" width="300" height="300"></object>
+            <button ref={buttonRef}>Start Edit</button>
+
+            <object ref={ShapeRef} type='image/svg+xml' data="copySVG/a.svg" width="300" height="300"></object>
             {globalObjRefactor && (
-                <ColorInputs ShapeRef={ShapeRef} globalInfo={globalObjRefactor} />
+                < ColorInputs SVG={ShapeRef.current.contentDocument.children[0]} globalInfo={globalObjRefactor} />
             )}
         </div>
     )

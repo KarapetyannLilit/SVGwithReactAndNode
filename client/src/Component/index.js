@@ -60,7 +60,7 @@ const getStyleType = (node) => {
 // }
 
 const findEachChild = (node) => {
-    console.log(node);
+    // console.log(node);
     const children = Array.from(node.children)
     if (children.length) {
         children.forEach((child) => {

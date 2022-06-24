@@ -6,7 +6,7 @@ module.exports = {
     mode: "development",
     entry: "./src/index.js",
     output: {
-        path: "C:/Users/Lilit Karapetyan/OneDrive/Рабочий стол/ExpressWithWebpack/public",
+        path: path.join(__dirname, "/../public/"),
         filename: "main.js"
     },
     // plugins: [new HtmlWebpackPlugin({

@@ -71,8 +71,10 @@ router.get('/svg', (req, res) => {
   Object.keys(dates).map(mtime => {
     const dateinDates = new Date(mtime)
     if (dateinDates.toDateString() === lastEdititedDAte.toDateString()) {
-      res.sendFile(path.resolve("./public/copySVG", dates[mtime]))
-      return
+      res.send(path.join("./public/copySVG", dates[mtime]))
+      // const svg = res.sendFile(path.resolve("./public/copySVG", dates[mtime]))
+      // res.send(svg)  
+      return  
     }
   })
 })

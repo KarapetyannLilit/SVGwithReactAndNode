@@ -1,12 +1,18 @@
-import React from "react";
-import Find from './Component/find';
+import React, { useEffect, useState } from "react"
+import Find from "./Component/find"
 
 const App = () => {
-    return (
-        <div>
-            <Find />
-        </div>
-    )
+  const [path, setPath] = useState()
+  const getSVG = async () => {
+    const response = await fetch("http://localhost:3000/svg")
+      .then((response) => response.text())
+      .then((data) => setPath(data))
+  }
+  useEffect(() => {
+    getSVG()
+  }, [])
+
+  return <div>{path && <Find path={path} />}</div>
 }
 
 export default App

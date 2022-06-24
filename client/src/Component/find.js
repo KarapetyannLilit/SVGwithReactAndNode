@@ -36,7 +36,6 @@ const Find = ({ path }) => {
   return (
     <div>
       <button ref={buttonRef}>Start Edit</button>
-
       <object
         ref={ShapeRef}
         type="image/svg+xml"

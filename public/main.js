@@ -447,7 +447,7 @@ var App = function App() {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return fetch("http://localhost:3000/svg").then(function (response) {
+              return fetch("http://localhost:3003/svg").then(function (response) {
                 return response.text();
               }).then(function (data) {
                 return setPath(data);

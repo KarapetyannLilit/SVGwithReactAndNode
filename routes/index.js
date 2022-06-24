@@ -55,28 +55,27 @@ router.get('/', (req, res, next) => {
 
 router.get('/svg', (req, res) => {
   const files = fs.readdirSync("./public/copySVG")
-  const dates = []
+  const dates = {}
   for (const file of files) {
     const stat = fs.lstatSync(path.join("./public/copySVG", file))
-    dates.push(stat.mtime)
+    dates[stat.mtime] = file
   }
   const lastEdititedDAte = new Date(
     Math.max(
-      ...dates.map(element => {
+      ...Object.keys(dates).map(element => {
         return new Date(element);
       }),
     ),
   )
-  for (const file of files) {
-    const stat = fs.lstatSync(path.join("./public/copySVG", file))
-    if (stat.mtime.toDateString() === lastEdititedDAte.toDateString()) {
-      // res.send(file)
-      res.sendFile(path.resolve("./public/copySVG", file))
+
+  Object.keys(dates).map(mtime => {
+    const dateinDates = new Date(mtime)
+    if (dateinDates.toDateString() === lastEdititedDAte.toDateString()) {
+      res.sendFile(path.resolve("./public/copySVG", dates[mtime]))
       return
     }
-  }
+  })
 })
-
 
 router.get('/uploadfile', upload.single('file'), (req, res, next) => {
   res.render('uploadfile', { errorMessage: null, accepted_types: Object.keys(upload.limits.mimetype).toString() })

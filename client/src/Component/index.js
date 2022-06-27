@@ -109,20 +109,7 @@ const setObj = (className, type, node, color) => {
   if (color in globalObj.groupedElementsByColor) {
     globalObj.groupedElementsByColor[color]["element"].push(node)
     node.removeAttribute(type)
-  }
-  if (
-    type in globalObj.groupedElementsByClassName &&
-    className in globalObj.groupedElementsByClassName[type]
-  ) {
-    globalObj.groupedElementsByClassName[type][className]["element"].push(node)
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-    node.removeAttribute(type)
-  }
-  if (
-    !(color in globalObj.groupedElementsByColor) ||
-    (!(type in globalObj.groupedElementsByClassName) &&
-      !(className in globalObj.groupedElementsByClassName[type]))
-  ) {
+  } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return
     }
@@ -130,6 +117,23 @@ const setObj = (className, type, node, color) => {
       return
     }
     globalObj.groupedElementsByColor[color] = { element: [node] }
+    node.removeAttribute(type)
+  }
+
+  if (
+    type in globalObj.groupedElementsByClassName &&
+    className in globalObj.groupedElementsByClassName[type]
+  ) {
+    globalObj.groupedElementsByClassName[type][className]["element"].push(node)
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
+    node.removeAttribute(type)
+  } else {
+    if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
+      return
+    }
+    if (node.tagName.includes("Gradient")) {
+      return
+    }
     globalObj.groupedElementsByClassName[type][className] = { element: [node] }
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
     node.removeAttribute(type)
@@ -141,7 +145,7 @@ const setDefaultStyle = (node) => {
 }
 
 export const clicked = (node) => {
-    console.log(globalObj)
+  console.log(globalObj)
   globalObj.groupedElementsByColor = {}
   globalObj.groupedElementsByClassName.fill = {}
   globalObj.groupedElementsByClassName.stroke = {}

@@ -7,17 +7,10 @@ const Find = ({ path }) => {
   const ShapeRef = useRef()
   const buttonRef = useRef()
   const pathWithoutPublic = path.replace("public", "")
-  console.log(pathWithoutPublic)
 
   useEffect(() => {
     if (ShapeRef.current) {
-      ShapeRef.current.addEventListener(
-        "load",
-        () => {
-          // console.log(ShapeRef.current.contentDocument.children[0])
-        },
-        false
-      )
+      ShapeRef.current.addEventListener("load", () => {}, false)
     }
   }, [])
 

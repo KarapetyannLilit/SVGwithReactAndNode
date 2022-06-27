@@ -496,7 +496,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _colorSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./colorSlider */ "./src/Component/colorSlider.js");
-/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+/* harmony import */ var _colorSliderForColors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./colorSliderForColors */ "./src/Component/colorSliderForColors.js");
+/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+
 
 
 
@@ -515,17 +517,24 @@ var ColorInputs = function ColorInputs(_ref) {
       filterdStroke = _useState4[0],
       setfilterdStroke = _useState4[1];
 
-  var mergeButton = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(); // const [elms, setElms] = useState([])
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+      _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState5, 2),
+      filterdColor = _useState6[0],
+      setfilterdColor = _useState6[1];
 
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState7, 2),
+      fopenWithColor = _useState8[0],
+      setopenWithColor = _useState8[1];
+
+  var openWithColor;
+  var mergeButton = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
   var elms = [];
   var checks = [];
-  console.log(SVG);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    SVG.addEventListener("click", function ankap() {
-      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_3__.newInputs)(setfilterdFill, setfilterdStroke, globalInfo);
-      SVG.removeEventListener("click", ankap);
-    });
-  }, []);
+  var el1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
+  var el2 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
+  var btnColors = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
+  var btnAll = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
   var filterdFillGradient = filterdFill.filter(function (className) {
     return className.includes("fill");
   });
@@ -538,7 +547,41 @@ var ColorInputs = function ColorInputs(_ref) {
   var filterdStrokeNoGradient = filterdStroke.filter(function (className) {
     return !className.includes("stroke");
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, filterdFillGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    el1.current.style.display = "none";
+    el2.current.style.display = "none";
+    btnColors.current.addEventListener("click", function () {
+      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_4__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
+      el1.current.style.display = "block";
+      el2.current.style.display = "none";
+    });
+    btnAll.current.addEventListener("click", function () {
+      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_4__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
+      el1.current.style.display = "none";
+      el2.current.style.display = "block";
+    });
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    ref: btnColors
+  }, "Colors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    ref: btnAll
+  }, "ALL "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    ref: el1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "inputs"
+  }, "With Colors", filterdColor.map(function (color) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSliderForColors__WEBPACK_IMPORTED_MODULE_3__.ColorSliderForColors, {
+      value: color,
+      elements: globalInfo.groupedElementsByColor[color].element,
+      SVG: SVG,
+      name: color,
+      setfilterdColor: setfilterdColor,
+      elms: elms,
+      checks: checks
+    });
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    ref: el2
+  }, filterdFillGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "inputs"
   }, "Gradient Fill", filterdFillGradient.map(function (className) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_2__.ColorSlider, {
@@ -598,9 +641,9 @@ var ColorInputs = function ColorInputs(_ref) {
       elms: elms,
       checks: checks
     });
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
     ref: mergeButton
-  }, "Merge Colors")));
+  }, "Merge Colors"))));
 };
 
 /***/ }),
@@ -674,7 +717,7 @@ var ColorSlider = function ColorSlider(_ref) {
       var val = elms[0].classList.value;
       elements.map(function (element) {
         element.style.filter = "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))";
-        element.classList.value = val; // colorInputRef.current.value = rgb2hex(val)
+        element.classList.value = val; // colorInputRef.current.value = rgb2hex(   val)
       });
     }
   };
@@ -715,7 +758,7 @@ var ColorSlider = function ColorSlider(_ref) {
       var elem = _children[_i];
 
       if (elem.classList.value !== name) {
-        elem.style.visibility = "hidden";
+        elem.style.filter = "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))"; // elem.style.visibility = "hidden"
       }
     }
   };
@@ -727,7 +770,7 @@ var ColorSlider = function ColorSlider(_ref) {
       var elem = _children2[_i2];
 
       if (elem.classList.value !== name) {
-        elem.style.visibility = "visible";
+        elem.style.filter = ""; // elem.style.visibility = "visible"
       }
     }
   };
@@ -747,6 +790,135 @@ var ColorSlider = function ColorSlider(_ref) {
     onMouseLeave: removeShadow
   }));
 };
+
+/***/ }),
+
+/***/ "./src/Component/colorSliderForColors.js":
+/*!***********************************************!*\
+  !*** ./src/Component/colorSliderForColors.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ColorSliderForColors": () => (/* binding */ ColorSliderForColors)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/Component/index.js");
+/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+
+
+
+var ColorSliderForColors = function ColorSliderForColors(_ref) {
+  var value = _ref.value,
+      elements = _ref.elements,
+      type = _ref.type,
+      SVG = _ref.SVG,
+      setfilterdColor = _ref.setfilterdColor,
+      checks = _ref.checks,
+      elms = _ref.elms,
+      name = _ref.name;
+  var colorInputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var checkboxRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var globalInfo = (0,___WEBPACK_IMPORTED_MODULE_1__.GlobalObj)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    colorInputRef.current.value = value;
+  }, [value]);
+
+  var changeColor = function changeColor(e, colorRef) {
+    elements.map(function (element) {
+      if (window.getComputedStyle(element, null).getPropertyValue("fill") !== "none") {
+        element.style["fill"] = e.target.value;
+      }
+
+      if (window.getComputedStyle(element, null).getPropertyValue("stroke") !== "none" || element.getAttribute("stroke") === null) {
+        element.style["stroke"] = e.target.value;
+      }
+
+      if (element.tagName.includes("stop")) {
+        element.setAttribute("stop-color", e.target.value);
+      }
+    });
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "input-checkbox"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    ref: colorInputRef,
+    type: "color",
+    onChange: function onChange(e) {
+      return changeColor(e, colorInputRef);
+    }
+  }));
+}; //   const addShadow = () => {
+//     for (const elem of elements) {
+//       if (
+//         rgb2hex(
+//           window.getComputedStyle(elem, null).getPropertyValue("fill")
+//         ) === name ||
+//         rgb2hex(
+//           window.getComputedStyle(elem, null).getPropertyValue("stroke")
+//         ) === name
+//       ) {
+//         elem.style["boxShadow"] = "10px 10px 5px blue"
+//         console.log(elem, elem.style["boxShadow"])
+//         // elem.style.visibility = "hidden"
+//       }
+//     }
+//   }
+//   const removeShadow = () => {
+//     for (const elem of elements) {
+//       if (
+//         rgb2hex(
+//           window.getComputedStyle(elem, null).getPropertyValue("fill")
+//         ) === name ||
+//         rgb2hex(
+//           window.getComputedStyle(elem, null).getPropertyValue("stroke")
+//         ) === name
+//       ) {
+//         elem.style["boxShadow"] = ""
+//         // console.log("asdfghj");
+//         // elem.style.vis0ibility = "hidden"
+//       }
+//     }
+//   }
+//   const checkCheckbox = () => {
+//     if (!checkboxRef.current.checked) {
+//       elements.forEach((elm) => elms.splice(elms.indexOf(elm), 1))
+//       checks.splice(checks.indexOf(checkboxRef.current), 1)
+//       elements.map((element) => {
+//         element.style.filter = ""
+//         element.classList.value = element.dataset.currentStyle
+//         // colorInputRef.current.value = rgb2hex(element.dataset.currentStyle)
+//       })
+//       elms[0].classList.value = elms[0].dataset.currentStyle
+//       elms.map((element) => {
+//         element.classList.value = elms[0].classList.value
+//         // colorInputRef.current.value = rgb2hex(element.dataset.currentStyle)
+//       })
+//     } else {
+//       elements.forEach((el) => {
+//         elms.push(el)
+//       })
+//       checks.push(checkboxRef.current)
+//       const val = elms[0].classList.value
+//       elements.map((element) => {
+//         element.style.filter = "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))"
+//         element.classList.value = val
+//         // colorInputRef.current.value = rgb2hex(val)
+//       })
+//     }
+//   }
+//   useEffect(() => {
+//     checkboxRef.current &&
+//       checkboxRef.current.addEventListener("click", checkCheckbox)
+//     return () => {
+//       checkboxRef.current &&
+//         checkboxRef.current.removeEventListener("click", checkCheckbox)
+//     }
+//   })
 
 /***/ }),
 
@@ -792,10 +964,14 @@ var ForCaseXPath = function ForCaseXPath(attribute, node, globalObj, findPath) {
     }
   }
 };
-var newInputs = function newInputs(setfilterdFill, setfilterdStroke, globalInfo) {
+var newInputs = function newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo) {
   for (var obj in globalInfo) {
-    setfilterdStroke(Array.from(Object.keys(globalInfo[obj].stroke)));
-    setfilterdFill(Array.from(Object.keys(globalInfo[obj].fill)));
+    if (globalInfo[obj].stroke || globalInfo[obj].fill) {
+      setfilterdStroke(Array.from(Object.keys(globalInfo[obj].stroke)));
+      setfilterdFill(Array.from(Object.keys(globalInfo[obj].fill)));
+    } else {
+      setfilterdColor(Array.from(Object.keys(globalInfo[obj])));
+    }
   }
 };
 
@@ -854,11 +1030,9 @@ var Find = function Find(_ref) {
   var ShapeRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
   var buttonRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
   var pathWithoutPublic = path.replace("public", "");
-  console.log(pathWithoutPublic);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (ShapeRef.current) {
-      ShapeRef.current.addEventListener("load", function () {// console.log(ShapeRef.current.contentDocument.children[0])
-      }, false);
+      ShapeRef.current.addEventListener("load", function () {}, false);
     }
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
@@ -1026,15 +1200,7 @@ var setObj = function setObj(className, type, node, color) {
   if (color in globalObj.groupedElementsByColor) {
     globalObj.groupedElementsByColor[color]["element"].push(node);
     node.removeAttribute(type);
-  }
-
-  if (type in globalObj.groupedElementsByClassName && className in globalObj.groupedElementsByClassName[type]) {
-    globalObj.groupedElementsByClassName[type][className]["element"].push(node);
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
-    node.removeAttribute(type);
-  }
-
-  if (!(color in globalObj.groupedElementsByColor) || !(type in globalObj.groupedElementsByClassName) && !(className in globalObj.groupedElementsByClassName[type])) {
+  } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return;
     }
@@ -1046,6 +1212,22 @@ var setObj = function setObj(className, type, node, color) {
     globalObj.groupedElementsByColor[color] = {
       element: [node]
     };
+    node.removeAttribute(type);
+  }
+
+  if (type in globalObj.groupedElementsByClassName && className in globalObj.groupedElementsByClassName[type]) {
+    globalObj.groupedElementsByClassName[type][className]["element"].push(node);
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
+    node.removeAttribute(type);
+  } else {
+    if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
+      return;
+    }
+
+    if (node.tagName.includes("Gradient")) {
+      return;
+    }
+
     globalObj.groupedElementsByClassName[type][className] = {
       element: [node]
     };

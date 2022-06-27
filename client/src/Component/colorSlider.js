@@ -54,7 +54,7 @@ export const ColorSlider = ({
             elements.map((element) => {
                 element.style.filter = "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))"
                 element.classList.value = val
-                // colorInputRef.current.value = rgb2hex(val)
+                // colorInputRef.current.value = rgb2hex(   val)
             })
         }
     }
@@ -91,7 +91,9 @@ export const ColorSlider = ({
         const children = Array.from(SVG.children)
         for (const elem of children) {
             if (elem.classList.value !== name) {
-                elem.style.visibility = "hidden"
+                elem.style.filter =
+                  "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))"
+                // elem.style.visibility = "hidden"
             }
         }
     }
@@ -99,7 +101,9 @@ export const ColorSlider = ({
         const children = Array.from(SVG.children)
         for (const elem of children) {
             if (elem.classList.value !== name) {
-                elem.style.visibility = "visible"
+                elem.style.filter =
+                  ""
+                // elem.style.visibility = "visible"
             }
         }
     }

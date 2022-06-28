@@ -451,7 +451,7 @@ var App = function App() {
               }).then(function (data) {
                 return setPath(data);
               })["catch"](function (err) {
-                console.log("blablabla", err.message);
+                console.log(err.message);
               });
 
             case 2:
@@ -591,6 +591,7 @@ var ColorInputs = function ColorInputs(_ref) {
       mergeRef: mergeButton,
       setfilterdFill: setfilterdFill,
       setfilterdStroke: setfilterdStroke,
+      setfilterdColor: setfilterdColor,
       elms: elms,
       checks: checks
     });
@@ -606,6 +607,7 @@ var ColorInputs = function ColorInputs(_ref) {
       mergeRef: mergeButton,
       setfilterdFill: setfilterdFill,
       setfilterdStroke: setfilterdStroke,
+      setfilterdColor: setfilterdColor,
       elms: elms,
       checks: checks
     });
@@ -621,6 +623,7 @@ var ColorInputs = function ColorInputs(_ref) {
       mergeRef: mergeButton,
       setfilterdFill: setfilterdFill,
       setfilterdStroke: setfilterdStroke,
+      setfilterdColor: setfilterdColor,
       elms: elms,
       checks: checks
     });
@@ -636,6 +639,7 @@ var ColorInputs = function ColorInputs(_ref) {
       mergeRef: mergeButton,
       setfilterdFill: setfilterdFill,
       setfilterdStroke: setfilterdStroke,
+      setfilterdColor: setfilterdColor,
       elms: elms,
       checks: checks
     });
@@ -672,6 +676,7 @@ var ColorSlider = function ColorSlider(_ref) {
       SVG = _ref.SVG,
       setfilterdFill = _ref.setfilterdFill,
       setfilterdStroke = _ref.setfilterdStroke,
+      setfilterdColor = _ref.setfilterdColor,
       checks = _ref.checks,
       elms = _ref.elms,
       name = _ref.name;
@@ -738,7 +743,7 @@ var ColorSlider = function ColorSlider(_ref) {
     //  // ShapeRef.current.appendChild(newSVG);
 
     (0,___WEBPACK_IMPORTED_MODULE_1__.clicked)(SVG);
-    (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_2__.newInputs)(setfilterdFill, setfilterdStroke, globalInfo);
+    (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_2__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
     elms = [];
   };
 
@@ -1044,6 +1049,7 @@ var Find = function Find(_ref) {
 
   var handleClick = function handleClick() {
     (0,___WEBPACK_IMPORTED_MODULE_2__.clicked)(ShapeRef.current.contentDocument.children[0]);
+    console.log((0,___WEBPACK_IMPORTED_MODULE_2__.GlobalObj)());
     setGlobalObjRefactor((0,___WEBPACK_IMPORTED_MODULE_2__.GlobalObj)());
   };
 

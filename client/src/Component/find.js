@@ -23,6 +23,7 @@ const Find = ({ path }) => {
 
   const handleClick = () => {
     clicked(ShapeRef.current.contentDocument.children[0])
+    console.log(GlobalObj());
     setGlobalObjRefactor(GlobalObj())
   }
 

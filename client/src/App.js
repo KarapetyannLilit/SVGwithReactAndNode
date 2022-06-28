@@ -9,7 +9,7 @@ const App = () => {
       .then((response) => response.text())
       .then((data) => setPath(data))
       .catch((err) => {
-        console.log("blablabla",err.message)
+        console.log(err.message)
       })
   }
   useEffect(() => {

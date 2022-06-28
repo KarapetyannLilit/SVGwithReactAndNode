@@ -87,6 +87,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
+                setfilterdColor={setfilterdColor}
                 elms={elms}
                 checks={checks}
               />
@@ -112,6 +113,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
+                setfilterdColor={setfilterdColor}
                 elms={elms}
                 checks={checks}
               />
@@ -136,6 +138,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
+                setfilterdColor={setfilterdColor}
                 elms={elms}
                 checks={checks}
               />
@@ -161,6 +164,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
+                setfilterdColor={setfilterdColor}
                 elms={elms}
                 checks={checks}
               />

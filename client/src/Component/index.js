@@ -23,10 +23,10 @@ const getStyleType = (node) => {
   const nodeClassList = Array.from(node.classList)
   if (nodeClassList.length) {
     nodeClassList.forEach((className) => {
-      const { fill, stroke, strokeColor, fillColor } = filterObject(
-        CLASSNAME,
-        node
-      )
+        const { fill, stroke, strokeColor, fillColor } = filterObject(
+          CLASSNAME,
+          node
+        )
       if (fill) {
         setDefaultStyle(node)
         setObj(className, fill, node, fillColor)

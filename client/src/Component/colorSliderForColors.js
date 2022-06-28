@@ -23,13 +23,16 @@ export const ColorSliderForColors = ({
     elements.map((element) => {
       if (
         window.getComputedStyle(element, null).getPropertyValue("fill") !==
-        "none"
+          "none" 
+        //   ||
+        // element.getAttribute("fill") === null
       ) {
         element.style["fill"] = e.target.value
       }
       if (
         window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-          "none" ||
+          "none"
+           ||
         element.getAttribute("stroke") === null
       ) {
         element.style["stroke"] = e.target.value

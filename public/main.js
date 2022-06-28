@@ -441,7 +441,6 @@ var App = function App() {
 
   var getSVG = /*#__PURE__*/function () {
     var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
-      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -451,12 +450,11 @@ var App = function App() {
                 return response.text();
               }).then(function (data) {
                 return setPath(data);
+              })["catch"](function (err) {
+                console.log("blablabla", err.message);
               });
 
             case 2:
-              response = _context.sent;
-
-            case 3:
             case "end":
               return _context.stop();
           }
@@ -829,7 +827,9 @@ var ColorSliderForColors = function ColorSliderForColors(_ref) {
 
   var changeColor = function changeColor(e, colorRef) {
     elements.map(function (element) {
-      if (window.getComputedStyle(element, null).getPropertyValue("fill") !== "none") {
+      if (window.getComputedStyle(element, null).getPropertyValue("fill") !== "none" //   ||
+      // element.getAttribute("fill") === null
+      ) {
         element.style["fill"] = e.target.value;
       }
 

@@ -31,6 +31,8 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
   const filterdStrokeNoGradient = filterdStroke.filter(
     (className) => !className.includes("stroke")
   )
+  console.log(filterdFill)
+  console.log(filterdFillGradient, filterdFillNoGradient, filterdStrokeGradient. filterdStrokeNoGradient)
   useEffect(() => {
     el1.current.style.display = "none"
     el2.current.style.display = "none"

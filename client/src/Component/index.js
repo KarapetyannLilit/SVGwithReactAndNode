@@ -22,6 +22,7 @@ const globalObj = {
 const getStyleType = (node) => {
   const nodeClassList = Array.from(node.classList)
   if (nodeClassList.length) {
+    console.log(nodeClassList)
     nodeClassList.forEach((className) => {
         const { fill, stroke, strokeColor, fillColor } = filterObject(
           CLASSNAME,
@@ -108,7 +109,7 @@ const filterObject = (type, element) => {
 const setObj = (className, type, node, color) => {
   if (color in globalObj.groupedElementsByColor) {
     globalObj.groupedElementsByColor[color]["element"].push(node)
-    node.removeAttribute(type)
+    // node.removeAttribute(type)
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return
@@ -117,7 +118,7 @@ const setObj = (className, type, node, color) => {
       return
     }
     globalObj.groupedElementsByColor[color] = { element: [node] }
-    node.removeAttribute(type)
+    // node.removeAttribute(type)
   }
 
   if (
@@ -126,7 +127,7 @@ const setObj = (className, type, node, color) => {
   ) {
     globalObj.groupedElementsByClassName[type][className]["element"].push(node)
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-    node.removeAttribute(type)
+    // node.removeAttribute(type)
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return
@@ -136,7 +137,7 @@ const setObj = (className, type, node, color) => {
     }
     globalObj.groupedElementsByClassName[type][className] = { element: [node] }
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-    node.removeAttribute(type)
+    // node.removeAttribute(type)
   }
 }
 const setDefaultStyle = (node) => {

@@ -545,6 +545,8 @@ var ColorInputs = function ColorInputs(_ref) {
   var filterdStrokeNoGradient = filterdStroke.filter(function (className) {
     return !className.includes("stroke");
   });
+  console.log(filterdFill);
+  console.log(filterdFillGradient, filterdFillNoGradient, filterdStrokeGradient.filterdStrokeNoGradient);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     el1.current.style.display = "none";
     el2.current.style.display = "none";
@@ -1102,6 +1104,7 @@ var getStyleType = function getStyleType(node) {
   var nodeClassList = Array.from(node.classList);
 
   if (nodeClassList.length) {
+    console.log(nodeClassList);
     nodeClassList.forEach(function (className) {
       var _filterObject = filterObject(_constants__WEBPACK_IMPORTED_MODULE_0__.CLASSNAME, node),
           fill = _filterObject.fill,
@@ -1204,8 +1207,7 @@ var filterObject = function filterObject(type, element) {
 
 var setObj = function setObj(className, type, node, color) {
   if (color in globalObj.groupedElementsByColor) {
-    globalObj.groupedElementsByColor[color]["element"].push(node);
-    node.removeAttribute(type);
+    globalObj.groupedElementsByColor[color]["element"].push(node); // node.removeAttribute(type)
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return;
@@ -1217,14 +1219,12 @@ var setObj = function setObj(className, type, node, color) {
 
     globalObj.groupedElementsByColor[color] = {
       element: [node]
-    };
-    node.removeAttribute(type);
+    }; // node.removeAttribute(type)
   }
 
   if (type in globalObj.groupedElementsByClassName && className in globalObj.groupedElementsByClassName[type]) {
     globalObj.groupedElementsByClassName[type][className]["element"].push(node);
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
-    node.removeAttribute(type);
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color]; // node.removeAttribute(type)
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
       return;
@@ -1237,8 +1237,7 @@ var setObj = function setObj(className, type, node, color) {
     globalObj.groupedElementsByClassName[type][className] = {
       element: [node]
     };
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
-    node.removeAttribute(type);
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color]; // node.removeAttribute(type)
   }
 };
 

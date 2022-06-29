@@ -19,24 +19,22 @@ const globalObj = {
   },
   groupedElementsByColor: {},
 }
+/////////////////////stexa problemy
 const getStyleType = (node) => {
-  const nodeClassList = Array.from(node.classList)
-  if (nodeClassList.length) {
-    console.log(nodeClassList)
-    nodeClassList.forEach((className) => {
-        const { fill, stroke, strokeColor, fillColor } = filterObject(
-          CLASSNAME,
-          node
-        )
-      if (fill) {
-        setDefaultStyle(node)
-        setObj(className, fill, node, fillColor)
-      }
-      if (stroke) {
-        setDefaultStyle(node)
-        setObj(className, stroke, node, strokeColor)
-      }
-    })
+  if (node.className.animVal) {
+    const className = node.className.animVal
+    const { fill, stroke, strokeColor, fillColor } = filterObject(
+      CLASSNAME,
+      node
+    )
+    if (fill) {
+      setDefaultStyle(node)
+      setObj(className, fill, node, fillColor)
+    }
+    if (stroke) {
+      setDefaultStyle(node)
+      setObj(className, stroke, node, strokeColor)
+    }
   }
 }
 
@@ -66,7 +64,6 @@ const getStyleType = (node) => {
 // }
 
 const findEachChild = (node) => {
-  // console.log(node);
   const children = Array.from(node.children)
   if (children.length) {
     children.forEach((child) => {
@@ -96,8 +93,8 @@ const filterObject = (type, element) => {
         filteredType.stroke = STROKE
       }
       if (element.id.includes(FILL) && element.getAttribute(STOP_COLOR)) {
-        filteredType.strokeColor = element.getAttribute(STOP_COLOR)
-        filteredType.stroke = FILL
+        filteredType.fillColor = element.getAttribute(STOP_COLOR)
+        filteredType.fill = FILL
       }
       return filteredType
     }
@@ -108,17 +105,38 @@ const filterObject = (type, element) => {
 }
 const setObj = (className, type, node, color) => {
   if (color in globalObj.groupedElementsByColor) {
+    if (
+      window.getComputedStyle(node).getPropertyValue("fill").includes("url")  ||
+      window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
+    ) {  
+      return
+    }
     globalObj.groupedElementsByColor[color]["element"].push(node)
+    globalObj.groupedElementsByColor[color]["type"].push(type)
+
     // node.removeAttribute(type)
+    return
   } else {
-    if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
+    if (
+      (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) ||
+      node.tagName.includes("Gradient")
+    ) {
       return
+    } else {
+      if (
+        window
+          .getComputedStyle(node)
+          .getPropertyValue("fill")
+          .includes("url") ||
+        window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
+      ) {
+        return
+      }
+      globalObj.groupedElementsByColor[color] = { element: [node] }
+          globalObj.groupedElementsByColor[color]["type"]= [type]
+
+      // node.removeAttribute(type)
     }
-    if (node.tagName.includes("Gradient")) {
-      return
-    }
-    globalObj.groupedElementsByColor[color] = { element: [node] }
-    // node.removeAttribute(type)
   }
 
   if (
@@ -129,10 +147,10 @@ const setObj = (className, type, node, color) => {
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
     // node.removeAttribute(type)
   } else {
-    if (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) {
-      return
-    }
-    if (node.tagName.includes("Gradient")) {
+    if (
+      (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) ||
+      node.tagName.includes("Gradient")
+    ) {
       return
     }
     globalObj.groupedElementsByClassName[type][className] = { element: [node] }

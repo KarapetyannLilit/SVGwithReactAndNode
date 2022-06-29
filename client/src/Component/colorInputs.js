@@ -31,8 +31,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
   const filterdStrokeNoGradient = filterdStroke.filter(
     (className) => !className.includes("stroke")
   )
-  console.log(filterdFill)
-  console.log(filterdFillGradient, filterdFillNoGradient, filterdStrokeGradient. filterdStrokeNoGradient)
+
   useEffect(() => {
     el1.current.style.display = "none"
     el2.current.style.display = "none"
@@ -49,6 +48,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
     })
   }, [])
 
+
   return (
     <div>
       <button ref={btnColors}>Colors</button>
@@ -61,6 +61,7 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
             <ColorSliderForColors
               value={color}
               elements={globalInfo.groupedElementsByColor[color].element}
+              type={globalInfo.groupedElementsByColor[color].type}
               SVG={SVG}
               name={color}
               setfilterdColor={setfilterdColor}

@@ -19,28 +19,56 @@ export const ColorSliderForColors = ({
     colorInputRef.current.value = value
   }, [value])
 
+  let inputColor
+  if (colorInputRef.current) {
+    inputColor = colorInputRef.current.value
+  }
+
   const changeColor = (e, colorRef) => {
     elements.map((element) => {
       if (
-        window.getComputedStyle(element, null).getPropertyValue("fill") !==
-          "none" 
-        //   ||
-        // element.getAttribute("fill") === null
+        rgb2hex(
+          window.getComputedStyle(element, null).getPropertyValue("fill")
+        ) === inputColor
       ) {
-        element.style["fill"] = e.target.value
+        if (!element.tagName.includes("stop")) {
+          element.style["fill"] = e.target.value
+          inputColor = e.target.value
+          return
+        }
+        if (
+          element.getAttribute("fill") &&
+          !element.getAttribute("fill").includes("url")
+        ) {
+          element.style["fill"] = e.target.value
+          inputColor = e.target.value
+          return
+        }
       }
       if (
-        window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-          "none"
-           ||
-        element.getAttribute("stroke") === null
+        rgb2hex(
+          window.getComputedStyle(element, null).getPropertyValue("stroke")
+        ) === inputColor
       ) {
-        element.style["stroke"] = e.target.value
+        if (!element.tagName.includes("stop")) {
+          element.style["stroke"] = e.target.value
+          inputColor = e.target.value
+          return
+        }
+        if (
+          element.getAttribute("stroke") &&
+          !element.getAttribute("stroke").includes("url")
+        ) {
+          element.style["stroke"] = e.target.value
+          inputColor = e.target.value
+          return
+        }
       }
       if (element.tagName.includes("stop")) {
         element.setAttribute("stop-color", e.target.value)
       }
     })
+    colorRef.current.value = e.target.value
   }
 
   return (
@@ -54,6 +82,24 @@ export const ColorSliderForColors = ({
     </div>
   )
 }
+
+//  if (
+//    window.getComputedStyle(element, null).getPropertyValue(type) !==
+//      "none" &&
+//    !element.tagName.includes("stop")
+//  ) {
+//    element.style[type] = e.target.value
+//    return
+//  }
+//  if (
+//    window.getComputedStyle(element, null).getPropertyValue(type) !==
+//      "none" &&
+//    element.getAttribute(type) &&
+//    !element.getAttribute(type).includes("url")
+//  ) {
+//    element.style[type] = e.target.value
+//    return
+//  }
 
 //   const addShadow = () => {
 //     for (const elem of elements) {
@@ -122,3 +168,88 @@ export const ColorSliderForColors = ({
 //         checkboxRef.current.removeEventListener("click", checkCheckbox)
 //     }
 //   })
+
+// const changeColor = (e, colorRef) => {
+//   elements.map((element) => {
+//     // console.log(
+//     //   window.getComputedStyle(element),
+//     //   element.style.stopColor,
+//     //   "stop",
+//     //   window.getComputedStyle(element, null).getPropertyValue("stopColor")
+//     // )
+
+//     // console.log(element.className.animVal.includes("fill"),
+//     // element.tagName.includes("stop"))
+//     if (!element.tagName.includes("stop")) {
+//       if (
+//         window.getComputedStyle(element, null).getPropertyValue("fill") !==
+//         "none"
+//       ) {
+//         if (!element.className.animVal.includes("fill")) {
+//           if (
+//             element.getAttribute("fill") &&
+//             !element.getAttribute("fill").includes("url")
+//           ) {
+//             console.log("123")
+//             element.style["fill"] = e.target.value
+//             return
+//           }
+//         }
+//       }
+//       if (
+//         window.getComputedStyle(element, null).getPropertyValue("stroke") !==
+//         "none"
+//       ) {
+//         if (!element.className.animVal.includes("stroke")) {
+//           if (
+//             element.getAttribute("stroke") &&
+//             !element.getAttribute("stroke").includes("url")
+//           ) {
+//             element.style["stroke"] = e.target.value
+//             return
+//           }
+//         }
+//       }
+//     }
+
+//     // if (
+//     //   window.getComputedStyle(element, null).getPropertyValue("stroke") !==
+//     //     "none" &&
+//     //   !element.className.animVal.includes("stroke")
+//     // ) {
+//     //   element.style["stroke"] = e.target.value
+//     //   return
+//     // }
+
+//     if (element.tagName.includes("stop")) {
+//       console.log(element)
+//       element.setAttribute("stop-color", e.target.value)
+//     }
+//   })
+//   colorRef.current.value = e.target.value
+// }
+
+// const changeColor = (e, colorRef) => {
+//   elements.map((element) => {
+//     console.log(window.getComputedStyle(element, null).getPropertyValue("stroke"));
+//     if (
+//       window.getComputedStyle(element, null).getPropertyValue("fill") !==
+//         "none"
+//         ||
+//       element.getAttribute("fill") === null
+//     ) {
+//       element.style["fill"] = e.target.value
+//     }
+//     if (
+//       window.getComputedStyle(element, null).getPropertyValue("stroke") !==
+//         "none"
+//          ||
+//       element.getAttribute("stroke") === null
+//     ) {
+//       element.style["stroke"] = e.target.value
+//     }
+//     if (element.tagName.includes("stop")) {
+//       element.setAttribute("stop-color", e.target.value)
+//     }
+//   })
+// }

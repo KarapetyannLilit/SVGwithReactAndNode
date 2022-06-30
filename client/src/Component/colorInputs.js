@@ -32,6 +32,16 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
     (className) => !className.includes("stroke")
   )
 
+  // const gradientColors = filterdColor.filter((color) => {
+  //   const element = globalInfo.groupedElementsByColor[color].element
+  //   console.log(element);
+  //   const elementClassName =
+  //     globalInfo.groupedElementsByColor[color].element[0].className.animVal
+  //   if (elementClassName.includes("fill")) {
+  //     // console.log(element);
+  //   }
+  // })
+
   useEffect(() => {
     el1.current.style.display = "none"
     el2.current.style.display = "none"
@@ -47,7 +57,6 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
       el2.current.style.display = "block"
     })
   }, [])
-
 
   return (
     <div>

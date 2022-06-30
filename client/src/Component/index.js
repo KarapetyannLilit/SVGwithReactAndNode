@@ -23,10 +23,7 @@ const globalObj = {
 const getStyleType = (node) => {
   if (node.className.animVal) {
     const className = node.className.animVal
-    const { fill, stroke, strokeColor, fillColor } = filterObject(
-      CLASSNAME,
-      node
-    )
+    let { fill, stroke, strokeColor, fillColor } = filterObject(CLASSNAME, node)
     if (fill) {
       setDefaultStyle(node)
       setObj(className, fill, node, fillColor)
@@ -80,11 +77,21 @@ const filterObject = (type, element) => {
     case CLASSNAME: {
       const stroke = window.getComputedStyle(element).stroke
       const fill = window.getComputedStyle(element).fill
-      if (fill && fill !== "none") {
+      if (
+        fill &&
+        fill !== "none" &&
+        !element.tagName.includes("stop") &&
+        !fill.includes("url")
+      ) {
         filteredType.fillColor = rgb2hex(fill)
         filteredType.fill = FILL
       }
-      if (stroke && stroke !== "none") {
+      if (
+        stroke &&
+        stroke !== "none" &&
+        !element.tagName.includes("stop") &&
+        !stroke.includes("url")
+      ) {
         filteredType.strokeColor = rgb2hex(stroke)
         filteredType.stroke = STROKE
       }
@@ -104,17 +111,26 @@ const filterObject = (type, element) => {
   }
 }
 const setObj = (className, type, node, color) => {
+  if (color.length < 6) {
+    color = color
+      .split("")
+      .map((item) => {
+        if (item == "#") {
+          return item
+        }
+        return item + item
+      })
+      .join("")
+  }
   if (color in globalObj.groupedElementsByColor) {
-    if (
-      window.getComputedStyle(node).getPropertyValue("fill").includes("url")  ||
-      window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
-    ) {  
-      return
-    }
+    // if (
+    //   window.getComputedStyle(node).getPropertyValue("fill").includes("url") ||
+    //   window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
+    // ) {
+    //   return
+    // }
     globalObj.groupedElementsByColor[color]["element"].push(node)
     globalObj.groupedElementsByColor[color]["type"].push(type)
-
-    // node.removeAttribute(type)
     return
   } else {
     if (
@@ -133,9 +149,7 @@ const setObj = (className, type, node, color) => {
         return
       }
       globalObj.groupedElementsByColor[color] = { element: [node] }
-          globalObj.groupedElementsByColor[color]["type"]= [type]
-
-      // node.removeAttribute(type)
+      globalObj.groupedElementsByColor[color]["type"] = [type]
     }
   }
 
@@ -145,7 +159,6 @@ const setObj = (className, type, node, color) => {
   ) {
     globalObj.groupedElementsByClassName[type][className]["element"].push(node)
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-    // node.removeAttribute(type)
   } else {
     if (
       (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) ||
@@ -155,7 +168,6 @@ const setObj = (className, type, node, color) => {
     }
     globalObj.groupedElementsByClassName[type][className] = { element: [node] }
     globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-    // node.removeAttribute(type)
   }
 }
 const setDefaultStyle = (node) => {

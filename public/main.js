@@ -544,7 +544,16 @@ var ColorInputs = function ColorInputs(_ref) {
   });
   var filterdStrokeNoGradient = filterdStroke.filter(function (className) {
     return !className.includes("stroke");
-  });
+  }); // const gradientColors = filterdColor.filter((color) => {
+  //   const element = globalInfo.groupedElementsByColor[color].element
+  //   console.log(element);
+  //   const elementClassName =
+  //     globalInfo.groupedElementsByColor[color].element[0].className.animVal
+  //   if (elementClassName.includes("fill")) {
+  //     // console.log(element);
+  //   }
+  // })
+
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     el1.current.style.display = "none";
     el2.current.style.display = "none";
@@ -838,38 +847,26 @@ var ColorSliderForColors = function ColorSliderForColors(_ref) {
 
   var changeColor = function changeColor(e, colorRef) {
     elements.map(function (element) {
-      if ((0,___WEBPACK_IMPORTED_MODULE_1__.rgb2hex)(window.getComputedStyle(element, null).getPropertyValue("fill")) === inputColor) {
-        if (!element.tagName.includes("stop")) {
+      if ((0,___WEBPACK_IMPORTED_MODULE_1__.rgb2hex)(window.getComputedStyle(element, null).getPropertyValue("fill")) === inputColor || element.getAttribute("fill") === inputColor) {
+        if (!element.tagName.includes("stop") && window.getComputedStyle(element, null).getPropertyValue("fill") !== "none") {
           element.style["fill"] = e.target.value;
-          inputColor = e.target.value;
-          return;
-        }
-
-        if (element.getAttribute("fill") && !element.getAttribute("fill").includes("url")) {
-          element.style["fill"] = e.target.value;
-          inputColor = e.target.value;
           return;
         }
       }
 
-      if ((0,___WEBPACK_IMPORTED_MODULE_1__.rgb2hex)(window.getComputedStyle(element, null).getPropertyValue("stroke")) === inputColor) {
-        if (!element.tagName.includes("stop")) {
+      if ((0,___WEBPACK_IMPORTED_MODULE_1__.rgb2hex)(window.getComputedStyle(element, null).getPropertyValue("stroke")) === inputColor || element.getAttribute("stroke") === inputColor) {
+        if (!element.tagName.includes("stop") && window.getComputedStyle(element, null).getPropertyValue("stroke") !== "none") {
           element.style["stroke"] = e.target.value;
-          inputColor = e.target.value;
-          return;
-        }
-
-        if (element.getAttribute("stroke") && !element.getAttribute("stroke").includes("url")) {
-          element.style["stroke"] = e.target.value;
-          inputColor = e.target.value;
           return;
         }
       }
 
       if (element.tagName.includes("stop")) {
         element.setAttribute("stop-color", e.target.value);
+        return;
       }
     });
+    inputColor = e.target.value;
     colorRef.current.value = e.target.value;
   };
 
@@ -882,170 +879,7 @@ var ColorSliderForColors = function ColorSliderForColors(_ref) {
       return changeColor(e, colorInputRef);
     }
   }));
-}; //  if (
-//    window.getComputedStyle(element, null).getPropertyValue(type) !==
-//      "none" &&
-//    !element.tagName.includes("stop")
-//  ) {
-//    element.style[type] = e.target.value
-//    return
-//  }
-//  if (
-//    window.getComputedStyle(element, null).getPropertyValue(type) !==
-//      "none" &&
-//    element.getAttribute(type) &&
-//    !element.getAttribute(type).includes("url")
-//  ) {
-//    element.style[type] = e.target.value
-//    return
-//  }
-//   const addShadow = () => {
-//     for (const elem of elements) {
-//       if (
-//         rgb2hex(
-//           window.getComputedStyle(elem, null).getPropertyValue("fill")
-//         ) === name ||
-//         rgb2hex(
-//           window.getComputedStyle(elem, null).getPropertyValue("stroke")
-//         ) === name
-//       ) {
-//         elem.style["boxShadow"] = "10px 10px 5px blue"
-//         console.log(elem, elem.style["boxShadow"])
-//         // elem.style.visibility = "hidden"
-//       }
-//     }
-//   }
-//   const removeShadow = () => {
-//     for (const elem of elements) {
-//       if (
-//         rgb2hex(
-//           window.getComputedStyle(elem, null).getPropertyValue("fill")
-//         ) === name ||
-//         rgb2hex(
-//           window.getComputedStyle(elem, null).getPropertyValue("stroke")
-//         ) === name
-//       ) {
-//         elem.style["boxShadow"] = ""
-//         // console.log("asdfghj");
-//         // elem.style.vis0ibility = "hidden"
-//       }
-//     }
-//   }
-//   const checkCheckbox = () => {
-//     if (!checkboxRef.current.checked) {
-//       elements.forEach((elm) => elms.splice(elms.indexOf(elm), 1))
-//       checks.splice(checks.indexOf(checkboxRef.current), 1)
-//       elements.map((element) => {
-//         element.style.filter = ""
-//         element.classList.value = element.dataset.currentStyle
-//         // colorInputRef.current.value = rgb2hex(element.dataset.currentStyle)
-//       })
-//       elms[0].classList.value = elms[0].dataset.currentStyle
-//       elms.map((element) => {
-//         element.classList.value = elms[0].classList.value
-//         // colorInputRef.current.value = rgb2hex(element.dataset.currentStyle)
-//       })
-//     } else {
-//       elements.forEach((el) => {
-//         elms.push(el)
-//       })
-//       checks.push(checkboxRef.current)
-//       const val = elms[0].classList.value
-//       elements.map((element) => {
-//         element.style.filter = "drop-shadow(0px 2px 2px rgb(0 0 0 / 0.8))"
-//         element.classList.value = val
-//         // colorInputRef.current.value = rgb2hex(val)
-//       })
-//     }
-//   }
-//   useEffect(() => {
-//     checkboxRef.current &&
-//       checkboxRef.current.addEventListener("click", checkCheckbox)
-//     return () => {
-//       checkboxRef.current &&
-//         checkboxRef.current.removeEventListener("click", checkCheckbox)
-//     }
-//   })
-// const changeColor = (e, colorRef) => {
-//   elements.map((element) => {
-//     // console.log(
-//     //   window.getComputedStyle(element),
-//     //   element.style.stopColor,
-//     //   "stop",
-//     //   window.getComputedStyle(element, null).getPropertyValue("stopColor")
-//     // )
-//     // console.log(element.className.animVal.includes("fill"),
-//     // element.tagName.includes("stop"))
-//     if (!element.tagName.includes("stop")) {
-//       if (
-//         window.getComputedStyle(element, null).getPropertyValue("fill") !==
-//         "none"
-//       ) {
-//         if (!element.className.animVal.includes("fill")) {
-//           if (
-//             element.getAttribute("fill") &&
-//             !element.getAttribute("fill").includes("url")
-//           ) {
-//             console.log("123")
-//             element.style["fill"] = e.target.value
-//             return
-//           }
-//         }
-//       }
-//       if (
-//         window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-//         "none"
-//       ) {
-//         if (!element.className.animVal.includes("stroke")) {
-//           if (
-//             element.getAttribute("stroke") &&
-//             !element.getAttribute("stroke").includes("url")
-//           ) {
-//             element.style["stroke"] = e.target.value
-//             return
-//           }
-//         }
-//       }
-//     }
-//     // if (
-//     //   window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-//     //     "none" &&
-//     //   !element.className.animVal.includes("stroke")
-//     // ) {
-//     //   element.style["stroke"] = e.target.value
-//     //   return
-//     // }
-//     if (element.tagName.includes("stop")) {
-//       console.log(element)
-//       element.setAttribute("stop-color", e.target.value)
-//     }
-//   })
-//   colorRef.current.value = e.target.value
-// }
-// const changeColor = (e, colorRef) => {
-//   elements.map((element) => {
-//     console.log(window.getComputedStyle(element, null).getPropertyValue("stroke"));
-//     if (
-//       window.getComputedStyle(element, null).getPropertyValue("fill") !==
-//         "none"
-//         ||
-//       element.getAttribute("fill") === null
-//     ) {
-//       element.style["fill"] = e.target.value
-//     }
-//     if (
-//       window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-//         "none"
-//          ||
-//       element.getAttribute("stroke") === null
-//     ) {
-//       element.style["stroke"] = e.target.value
-//     }
-//     if (element.tagName.includes("stop")) {
-//       element.setAttribute("stop-color", e.target.value)
-//     }
-//   })
-// }
+};
 
 /***/ }),
 
@@ -1291,12 +1125,12 @@ var filterObject = function filterObject(type, element) {
         var stroke = window.getComputedStyle(element).stroke;
         var fill = window.getComputedStyle(element).fill;
 
-        if (fill && fill !== "none") {
+        if (fill && fill !== "none" && !element.tagName.includes("stop") && !fill.includes("url")) {
           filteredType.fillColor = rgb2hex(fill);
           filteredType.fill = _constants__WEBPACK_IMPORTED_MODULE_0__.FILL;
         }
 
-        if (stroke && stroke !== "none") {
+        if (stroke && stroke !== "none" && !element.tagName.includes("stop") && !stroke.includes("url")) {
           filteredType.strokeColor = rgb2hex(stroke);
           filteredType.stroke = _constants__WEBPACK_IMPORTED_MODULE_0__.STROKE;
         }
@@ -1322,14 +1156,25 @@ var filterObject = function filterObject(type, element) {
 };
 
 var setObj = function setObj(className, type, node, color) {
+  if (color.length < 6) {
+    color = color.split("").map(function (item) {
+      if (item == "#") {
+        return item;
+      }
+
+      return item + item;
+    }).join("");
+  }
+
   if (color in globalObj.groupedElementsByColor) {
-    if (window.getComputedStyle(node).getPropertyValue("fill").includes("url") || window.getComputedStyle(node).getPropertyValue("stroke").includes("url")) {
-      return;
-    }
-
+    // if (
+    //   window.getComputedStyle(node).getPropertyValue("fill").includes("url") ||
+    //   window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
+    // ) {
+    //   return
+    // }
     globalObj.groupedElementsByColor[color]["element"].push(node);
-    globalObj.groupedElementsByColor[color]["type"].push(type); // node.removeAttribute(type)
-
+    globalObj.groupedElementsByColor[color]["type"].push(type);
     return;
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#") || node.tagName.includes("Gradient")) {
@@ -1342,13 +1187,13 @@ var setObj = function setObj(className, type, node, color) {
       globalObj.groupedElementsByColor[color] = {
         element: [node]
       };
-      globalObj.groupedElementsByColor[color]["type"] = [type]; // node.removeAttribute(type)
+      globalObj.groupedElementsByColor[color]["type"] = [type];
     }
   }
 
   if (type in globalObj.groupedElementsByClassName && className in globalObj.groupedElementsByClassName[type]) {
     globalObj.groupedElementsByClassName[type][className]["element"].push(node);
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color]; // node.removeAttribute(type)
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
   } else {
     if (node.getAttribute(type) && node.getAttribute(type).includes("url(#") || node.tagName.includes("Gradient")) {
       return;
@@ -1357,7 +1202,7 @@ var setObj = function setObj(className, type, node, color) {
     globalObj.groupedElementsByClassName[type][className] = {
       element: [node]
     };
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color]; // node.removeAttribute(type)
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color];
   }
 };
 

@@ -490,12 +490,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ColorInputs": () => (/* binding */ ColorInputs)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _colorSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./colorSlider */ "./src/Component/colorSlider.js");
-/* harmony import */ var _colorSliderForColors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./colorSliderForColors */ "./src/Component/colorSliderForColors.js");
-/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _colorSlider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./colorSlider */ "./src/Component/colorSlider.js");
+/* harmony import */ var _colorSliderForColors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./colorSliderForColors */ "./src/Component/colorSliderForColors.js");
+/* harmony import */ var _colorSliderForGradientColor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./colorSliderForGradientColor */ "./src/Component/colorSliderForGradientColor.js");
+/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+
+
 
 
 
@@ -505,34 +509,36 @@ var ColorInputs = function ColorInputs(_ref) {
   var SVG = _ref.SVG,
       globalInfo = _ref.globalInfo;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-      _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState, 2),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState, 2),
       filterdFill = _useState2[0],
       setfilterdFill = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-      _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState3, 2),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState3, 2),
       filterdStroke = _useState4[0],
       setfilterdStroke = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-      _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState5, 2),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState5, 2),
       filterdColor = _useState6[0],
       setfilterdColor = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-      _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_useState7, 2),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+      _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState7, 2),
       fopenWithColor = _useState8[0],
       setopenWithColor = _useState8[1];
 
   var openWithColor;
-  var mergeButton = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
+  var mergeButton = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
   var elms = [];
   var checks = [];
-  var el1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var el2 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var btnColors = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var btnAll = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();
+  var colors = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  var gradAndColors = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  var withClass = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  var btnColors = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  var btnAll = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  var btnGradients = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)();
   var filterdFillGradient = filterdFill.filter(function (className) {
     return className.includes("fill");
   });
@@ -544,55 +550,97 @@ var ColorInputs = function ColorInputs(_ref) {
   });
   var filterdStrokeNoGradient = filterdStroke.filter(function (className) {
     return !className.includes("stroke");
-  }); // const gradientColors = filterdColor.filter((color) => {
-  //   const element = globalInfo.groupedElementsByColor[color].element
-  //   console.log(element);
-  //   const elementClassName =
-  //     globalInfo.groupedElementsByColor[color].element[0].className.animVal
-  //   if (elementClassName.includes("fill")) {
-  //     // console.log(element);
-  //   }
-  // })
+  });
+  var gradientElements = [];
+  var NogradientElements = [];
+  filterdColor.forEach(function (color) {
+    gradientElements.push.apply(gradientElements, (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(globalInfo.groupedElementsByColor[color].element.filter(function (elem) {
+      if (elem.tagName.includes("stop")) {
+        if (globalInfo.groupedElementsByColor[color].element.length !== 1) {
+          if (!NogradientElements.includes(color)) {
+            NogradientElements.push(color);
+          }
+        }
 
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    el1.current.style.display = "none";
-    el2.current.style.display = "none";
+        return elem;
+      } else {
+        if (!NogradientElements.includes(color)) {
+          NogradientElements.push(color);
+        }
+      }
+    })));
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    colors.current.style.display = "none";
+    gradAndColors.current.style.display = "none";
+    withClass.current.style.display = "none";
     btnColors.current.addEventListener("click", function () {
-      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_4__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
-      el1.current.style.display = "block";
-      el2.current.style.display = "none";
+      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_6__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
+      colors.current.style.display = "block";
+      gradAndColors.current.style.display = "none";
+      withClass.current.style.display = "none";
     });
     btnAll.current.addEventListener("click", function () {
-      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_4__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
-      el1.current.style.display = "none";
-      el2.current.style.display = "block";
+      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_6__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
+      colors.current.style.display = "none";
+      gradAndColors.current.style.display = "none";
+      withClass.current.style.display = "block";
+    });
+    btnGradients.current.addEventListener("click", function () {
+      (0,_commonFunctions__WEBPACK_IMPORTED_MODULE_6__.newInputs)(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo);
+      colors.current.style.display = "none";
+      gradAndColors.current.style.display = "block";
+      withClass.current.style.display = "none";
     });
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("button", {
     ref: btnColors
-  }, "Colors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+  }, "Colors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("button", {
+    ref: btnGradients
+  }, "With Gradients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("button", {
     ref: btnAll
-  }, "ALL "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    ref: el1
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, "ALL "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
+    ref: colors
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
     className: "inputs"
   }, "With Colors", filterdColor.map(function (color) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSliderForColors__WEBPACK_IMPORTED_MODULE_3__.ColorSliderForColors, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSliderForColors__WEBPACK_IMPORTED_MODULE_4__.ColorSliderForColors, {
       value: color,
       elements: globalInfo.groupedElementsByColor[color].element,
-      type: globalInfo.groupedElementsByColor[color].type,
       SVG: SVG,
       name: color,
       setfilterdColor: setfilterdColor,
       elms: elms,
       checks: checks
     });
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    ref: el2
-  }, filterdFillGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
+    ref: gradAndColors
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
+    className: "inputs"
+  }, "NOT Gradient", NogradientElements.map(function (color) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSliderForColors__WEBPACK_IMPORTED_MODULE_4__.ColorSliderForColors, {
+      value: color,
+      elements: globalInfo.groupedElementsByColor[color].element,
+      SVG: SVG,
+      name: color,
+      setfilterdColor: setfilterdColor,
+      elms: elms,
+      checks: checks
+    });
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
+    className: "inputs"
+  }, "Gradients", gradientElements.map(function (element) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSliderForGradientColor__WEBPACK_IMPORTED_MODULE_5__.ColorSliderForGradientColors, {
+      value: element.getAttribute("stop-color"),
+      element: element,
+      SVG: SVG
+    });
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
+    ref: withClass
+  }, filterdFillGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
     className: "inputs"
   }, "Gradient Fill", filterdFillGradient.map(function (className) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_2__.ColorSlider, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_3__.ColorSlider, {
       value: globalInfo.groupedElementsByClassName.fill[className].color,
       elements: globalInfo.groupedElementsByClassName.fill[className].element,
       type: "fill",
@@ -605,10 +653,10 @@ var ColorInputs = function ColorInputs(_ref) {
       elms: elms,
       checks: checks
     });
-  })), filterdStrokeGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  })), filterdStrokeGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
     className: "inputs"
   }, "Gradient Stroke", filterdStrokeGradient.map(function (className) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_2__.ColorSlider, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_3__.ColorSlider, {
       value: globalInfo.groupedElementsByClassName.stroke[className].color,
       elements: globalInfo.groupedElementsByClassName.stroke[className].element,
       type: "stroke",
@@ -621,10 +669,10 @@ var ColorInputs = function ColorInputs(_ref) {
       elms: elms,
       checks: checks
     });
-  })), filterdFillNoGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  })), filterdFillNoGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
     className: "inputs"
   }, "Fill", filterdFillNoGradient.map(function (className) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_2__.ColorSlider, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_3__.ColorSlider, {
       value: globalInfo.groupedElementsByClassName.fill[className].color,
       elements: globalInfo.groupedElementsByClassName.fill[className].element,
       type: "fill",
@@ -637,10 +685,10 @@ var ColorInputs = function ColorInputs(_ref) {
       elms: elms,
       checks: checks
     });
-  })), filterdStrokeNoGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  })), filterdStrokeNoGradient.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", {
     className: "inputs"
   }, "Stroke", filterdStrokeNoGradient.map(function (className) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_2__.ColorSlider, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement(_colorSlider__WEBPACK_IMPORTED_MODULE_3__.ColorSlider, {
       value: globalInfo.groupedElementsByClassName.stroke[className].color,
       elements: globalInfo.groupedElementsByClassName.stroke[className].element,
       type: "stroke",
@@ -653,7 +701,7 @@ var ColorInputs = function ColorInputs(_ref) {
       elms: elms,
       checks: checks
     });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default().createElement("button", {
     ref: mergeButton
   }, "Merge Colors"))));
 };
@@ -827,7 +875,6 @@ __webpack_require__.r(__webpack_exports__);
 var ColorSliderForColors = function ColorSliderForColors(_ref) {
   var value = _ref.value,
       elements = _ref.elements,
-      type = _ref.type,
       SVG = _ref.SVG,
       setfilterdColor = _ref.setfilterdColor,
       checks = _ref.checks,
@@ -866,6 +913,74 @@ var ColorSliderForColors = function ColorSliderForColors(_ref) {
         return;
       }
     });
+    inputColor = e.target.value;
+    colorRef.current.value = e.target.value;
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "input-checkbox"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    ref: colorInputRef,
+    type: "color",
+    onChange: function onChange(e) {
+      return changeColor(e, colorInputRef);
+    }
+  }));
+};
+
+/***/ }),
+
+/***/ "./src/Component/colorSliderForGradientColor.js":
+/*!******************************************************!*\
+  !*** ./src/Component/colorSliderForGradientColor.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ColorSliderForGradientColors": () => (/* binding */ ColorSliderForGradientColors)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/Component/index.js");
+/* harmony import */ var _commonFunctions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commonFunctions */ "./src/Component/commonFunctions.js");
+
+
+
+var ColorSliderForGradientColors = function ColorSliderForGradientColors(_ref) {
+  var value = _ref.value,
+      element = _ref.element,
+      SVG = _ref.SVG;
+  var colorInputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var checkboxRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var globalInfo = (0,___WEBPACK_IMPORTED_MODULE_1__.GlobalObj)();
+
+  if (value.length < 6) {
+    value = value.split("").map(function (item) {
+      if (item == "#") {
+        return item;
+      }
+
+      return item + item;
+    }).join("");
+  }
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    colorInputRef.current.value = value;
+  }, [value]);
+  var inputColor;
+
+  if (colorInputRef.current) {
+    inputColor = colorInputRef.current.value;
+  }
+
+  var changeColor = function changeColor(e, colorRef) {
+    if (element.tagName.includes("stop")) {
+      element.setAttribute("stop-color", e.target.value);
+      return;
+    }
+
     inputColor = e.target.value;
     colorRef.current.value = e.target.value;
   };
@@ -34643,6 +34758,25 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _arrayWithoutHoles)
+/* harmony export */ });
+/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js");
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr);
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
@@ -34688,6 +34822,23 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _iterableToArray)
+/* harmony export */ });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 /***/ }),
@@ -34752,6 +34903,23 @@ function _nonIterableRest() {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _nonIterableSpread)
+/* harmony export */ });
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
@@ -34773,6 +34941,31 @@ __webpack_require__.r(__webpack_exports__);
 
 function _slicedToArray(arr, i) {
   return (0,_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || (0,_iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arr, i) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(arr, i) || (0,_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toConsumableArray)
+/* harmony export */ });
+/* harmony import */ var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles.js */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
+/* harmony import */ var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js");
+/* harmony import */ var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nonIterableSpread.js */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+
+
+
+
+function _toConsumableArray(arr) {
+  return (0,_arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || (0,_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(arr) || (0,_nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 }
 
 /***/ }),

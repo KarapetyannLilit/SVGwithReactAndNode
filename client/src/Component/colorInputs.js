@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { ColorSlider } from "./colorSlider"
 import { ColorSliderForColors } from "./colorSliderForColors"
+import { ColorSliderForGradientColors } from "./colorSliderForGradientColor"
 import { newInputs } from "./commonFunctions"
 export const ColorInputs = ({ SVG, globalInfo }) => {
   const [filterdFill, setfilterdFill] = useState([])
@@ -13,10 +14,12 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
   const elms = []
   const checks = []
 
-  const el1 = useRef()
-  const el2 = useRef()
+  const colors = useRef()
+  const gradAndColors = useRef()
+  const withClass = useRef()
   const btnColors = useRef()
   const btnAll = useRef()
+  const btnGradients = useRef()
 
   const filterdFillGradient = filterdFill.filter((className) =>
     className.includes("fill")
@@ -32,45 +35,66 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
     (className) => !className.includes("stroke")
   )
 
-  // const gradientColors = filterdColor.filter((color) => {
-  //   const element = globalInfo.groupedElementsByColor[color].element
-  //   console.log(element);
-  //   const elementClassName =
-  //     globalInfo.groupedElementsByColor[color].element[0].className.animVal
-  //   if (elementClassName.includes("fill")) {
-  //     // console.log(element);
-  //   }
-  // })
+  const gradientElements = []
+  const NogradientElements = []
+  filterdColor.forEach((color) => {
+    gradientElements.push(
+      ...globalInfo.groupedElementsByColor[color].element.filter((elem) => {
+        if (elem.tagName.includes("stop")) {
+          if (globalInfo.groupedElementsByColor[color].element.length !== 1) {
+            if (!NogradientElements.includes(color)) {
+              NogradientElements.push(color)
+            }
+          }
+          return elem
+        } else {
+          if (!NogradientElements.includes(color)) {
+            NogradientElements.push(color)
+          }
+        }
+      })
+    )
+  })
 
   useEffect(() => {
-    el1.current.style.display = "none"
-    el2.current.style.display = "none"
+    colors.current.style.display = "none"
+    gradAndColors.current.style.display = "none"
+    withClass.current.style.display = "none"
+
     btnColors.current.addEventListener("click", () => {
       newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo)
-      el1.current.style.display = "block"
-      el2.current.style.display = "none"
+      colors.current.style.display = "block"
+      gradAndColors.current.style.display = "none"
+      withClass.current.style.display = "none"
     })
 
     btnAll.current.addEventListener("click", () => {
       newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo)
-      el1.current.style.display = "none"
-      el2.current.style.display = "block"
+      colors.current.style.display = "none"
+      gradAndColors.current.style.display = "none"
+      withClass.current.style.display = "block"
+    })
+    btnGradients.current.addEventListener("click", () => {
+      newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo)
+      colors.current.style.display = "none"
+      gradAndColors.current.style.display = "block"
+      withClass.current.style.display = "none"
     })
   }, [])
 
   return (
     <div>
       <button ref={btnColors}>Colors</button>
+      <button ref={btnGradients}>With Gradients</button>
       <button ref={btnAll}>ALL </button>
 
-      <div ref={el1}>
+      <div ref={colors}>
         <div className="inputs">
           With Colors
           {filterdColor.map((color) => (
             <ColorSliderForColors
               value={color}
               elements={globalInfo.groupedElementsByColor[color].element}
-              type={globalInfo.groupedElementsByColor[color].type}
               SVG={SVG}
               name={color}
               setfilterdColor={setfilterdColor}
@@ -81,7 +105,34 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
         </div>
       </div>
 
-      <div ref={el2}>
+      <div ref={gradAndColors}>
+        <div className="inputs">
+          NOT Gradient
+          {NogradientElements.map((color) => (
+            <ColorSliderForColors
+              value={color}
+              elements={globalInfo.groupedElementsByColor[color].element}
+              SVG={SVG}
+              name={color}
+              setfilterdColor={setfilterdColor}
+              elms={elms}
+              checks={checks}
+            />
+          ))}
+        </div>
+        <div className="inputs">
+          Gradients
+          {gradientElements.map((element) => (
+            <ColorSliderForGradientColors
+              value={element.getAttribute("stop-color")}
+              element={element}
+              SVG={SVG}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div ref={withClass}>
         {filterdFillGradient.length > 0 && (
           <div className="inputs">
             Gradient Fill

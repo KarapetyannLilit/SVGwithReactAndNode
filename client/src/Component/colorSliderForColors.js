@@ -5,7 +5,6 @@ import { newInputs } from "./commonFunctions"
 export const ColorSliderForColors = ({
   value,
   elements,
-  type,
   SVG,
   setfilterdColor,
   checks,

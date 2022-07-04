@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from "react"
 import { ColorSlider } from "./colorSlider"
 import { ColorSliderForColors } from "./colorSliderForColors"
 import { ColorSliderForGradientColors } from "./colorSliderForGradientColor"
+import { ColorSliderForNotGradientColors } from "./ColorSliderForNotGradientColor"
 import { newInputs } from "./commonFunctions"
 export const ColorInputs = ({ SVG, globalInfo }) => {
   const [filterdFill, setfilterdFill] = useState([])
   const [filterdStroke, setfilterdStroke] = useState([])
   const [filterdColor, setfilterdColor] = useState([])
-  const [fopenWithColor, setopenWithColor] = useState(false)
-  let openWithColor
 
   const mergeButton = useRef()
   const elms = []
@@ -27,7 +26,6 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
   const filterdFillNoGradient = filterdFill.filter(
     (className) => !className.includes("fill")
   )
-
   const filterdStrokeGradient = filterdStroke.filter((className) =>
     className.includes("stroke")
   )
@@ -57,6 +55,17 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
   })
 
   useEffect(() => {
+    if (
+      Array.from(SVG.getElementsByTagName("radialGradient")).length === 0 &&
+      Array.from(SVG.getElementsByTagName("linearGradient")).length === 0
+    ) {
+      if (btnGradients.current) {
+        btnGradients.current.style.display = "none"
+      }
+    }
+  }, [SVG])
+
+  useEffect(() => {
     colors.current.style.display = "none"
     gradAndColors.current.style.display = "none"
     withClass.current.style.display = "none"
@@ -74,12 +83,17 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
       gradAndColors.current.style.display = "none"
       withClass.current.style.display = "block"
     })
-    btnGradients.current.addEventListener("click", () => {
-      newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo)
-      colors.current.style.display = "none"
-      gradAndColors.current.style.display = "block"
-      withClass.current.style.display = "none"
-    })
+    if (
+      Array.from(SVG.getElementsByTagName("radialGradient")).length > 0 ||
+      Array.from(SVG.getElementsByTagName("linearGradient")).length > 0
+    ) {
+      btnGradients.current.addEventListener("click", () => {
+        newInputs(setfilterdFill, setfilterdStroke, setfilterdColor, globalInfo)
+        colors.current.style.display = "none"
+        gradAndColors.current.style.display = "block"
+        withClass.current.style.display = "none"
+      })
+    }
   }, [])
 
   return (
@@ -97,9 +111,6 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
               elements={globalInfo.groupedElementsByColor[color].element}
               SVG={SVG}
               name={color}
-              setfilterdColor={setfilterdColor}
-              elms={elms}
-              checks={checks}
             />
           ))}
         </div>
@@ -109,14 +120,10 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
         <div className="inputs">
           NOT Gradient
           {NogradientElements.map((color) => (
-            <ColorSliderForColors
+            <ColorSliderForNotGradientColors
               value={color}
               elements={globalInfo.groupedElementsByColor[color].element}
               SVG={SVG}
-              name={color}
-              setfilterdColor={setfilterdColor}
-              elms={elms}
-              checks={checks}
             />
           ))}
         </div>
@@ -234,9 +241,6 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
             ))}
           </div>
         )}
-        <div>
-          <button ref={mergeButton}>Merge Colors</button>
-        </div>
       </div>
     </div>
   )

@@ -32,13 +32,18 @@ export const ForCaseXPath = (attribute, node, globalObj, findPath) => {
   }
 }
 
-export const newInputs = (setfilterdFill, setfilterdStroke,setfilterdColor, globalInfo) => {
+export const newInputs = (
+  setfilterdFill,
+  setfilterdStroke,
+  setfilterdColor,
+  globalInfo
+) => {
   for (const obj in globalInfo) {
     if (globalInfo[obj].stroke || globalInfo[obj].fill) {
       setfilterdStroke(Array.from(Object.keys(globalInfo[obj].stroke)))
       setfilterdFill(Array.from(Object.keys(globalInfo[obj].fill)))
     } else {
-        setfilterdColor(Array.from(Object.keys(globalInfo[obj])))
+      setfilterdColor(Array.from(Object.keys(globalInfo[obj])))
     }
   }
 }

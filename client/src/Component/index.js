@@ -19,7 +19,7 @@ const globalObj = {
   },
   groupedElementsByColor: {},
 }
-/////////////////////stexa problemy
+
 const getStyleType = (node) => {
   if (node.className.animVal) {
     const className = node.className.animVal
@@ -34,31 +34,6 @@ const getStyleType = (node) => {
     }
   }
 }
-
-// let num = 0
-
-// const addClassName = (node) => {
-//     if (!(node.tagName === "STYLE")) {
-//         if (!node.classList.value) {
-//             const fill = window.getComputedStyle(node).fill
-//             const stroke = window.getComputedStyle(node).stroke
-//             let style = document.createElement("style")
-//             style.type = "text/css"
-//             if (node.id) {
-//                 const stopColor = window.getComputedStyle(node).stopColor
-//                 style.innerHTML = `.${node.id}  { fill: ${fill}; stroke:${stroke}; stop-color:${stopColor}; }`
-//                 ShapeRef.current.appendChild(style)
-//                 node.classList.value = node.id
-//             } else {
-//                 style.innerHTML = `.${"class" + num
-//                     } { fill: ${fill}; stroke:${stroke} ; }`
-//                 ShapeRef.current.appendChild(style)
-//                 node.classList.value = "class" + num
-//             }
-//         }
-//         num++
-//     }
-// }
 
 const findEachChild = (node) => {
   const children = Array.from(node.children)
@@ -111,6 +86,22 @@ const filterObject = (type, element) => {
   }
 }
 const setObj = (className, type, node, color) => {
+  if (
+    type in globalObj.groupedElementsByClassName &&
+    className in globalObj.groupedElementsByClassName[type]
+  ) {
+    globalObj.groupedElementsByClassName[type][className]["element"].push(node)
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
+  } else {
+    if (
+      (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) ||
+      node.tagName.includes("Gradient")
+    ) {
+      return
+    }
+    globalObj.groupedElementsByClassName[type][className] = { element: [node] }
+    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
+  }
   if (color.length < 6) {
     color = color
       .split("")
@@ -123,12 +114,6 @@ const setObj = (className, type, node, color) => {
       .join("")
   }
   if (color in globalObj.groupedElementsByColor) {
-    // if (
-    //   window.getComputedStyle(node).getPropertyValue("fill").includes("url") ||
-    //   window.getComputedStyle(node).getPropertyValue("stroke").includes("url")
-    // ) {
-    //   return
-    // }
     globalObj.groupedElementsByColor[color]["element"].push(node)
     globalObj.groupedElementsByColor[color]["type"].push(type)
     return
@@ -152,23 +137,6 @@ const setObj = (className, type, node, color) => {
       globalObj.groupedElementsByColor[color]["type"] = [type]
     }
   }
-
-  if (
-    type in globalObj.groupedElementsByClassName &&
-    className in globalObj.groupedElementsByClassName[type]
-  ) {
-    globalObj.groupedElementsByClassName[type][className]["element"].push(node)
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-  } else {
-    if (
-      (node.getAttribute(type) && node.getAttribute(type).includes("url(#")) ||
-      node.tagName.includes("Gradient")
-    ) {
-      return
-    }
-    globalObj.groupedElementsByClassName[type][className] = { element: [node] }
-    globalObj.groupedElementsByClassName[type][className]["color"] = [color]
-  }
 }
 const setDefaultStyle = (node) => {
   const style = node.classList.value
@@ -176,7 +144,6 @@ const setDefaultStyle = (node) => {
 }
 
 export const clicked = (node) => {
-  console.log(globalObj)
   globalObj.groupedElementsByColor = {}
   globalObj.groupedElementsByClassName.fill = {}
   globalObj.groupedElementsByClassName.stroke = {}

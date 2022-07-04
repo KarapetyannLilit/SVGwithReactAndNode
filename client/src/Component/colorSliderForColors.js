@@ -2,15 +2,7 @@ import React, { useRef, useEffect } from "react"
 import { clicked, GlobalObj, rgb2hex } from "."
 import { newInputs } from "./commonFunctions"
 
-export const ColorSliderForColors = ({
-  value,
-  elements,
-  SVG,
-  setfilterdColor,
-  checks,
-  elms,
-  name,
-}) => {
+export const ColorSliderForColors = ({ value, elements, SVG }) => {
   const colorInputRef = useRef()
   const checkboxRef = useRef()
   const globalInfo = GlobalObj()
@@ -64,9 +56,30 @@ export const ColorSliderForColors = ({
     colorRef.current.value = e.target.value
   }
 
+  const showinput = (e) => {
+    const target = e.target
+    if (target) {
+      const children = Array.from(elements)
+      for (const elem of children) {
+        if (elem.classList.value === target.classList.value) {
+          colorInputRef.current.style.filter =
+            "drop-shadow(16px 16px 10px black)"
+          return
+        }
+      }
+      colorInputRef.current.style.filter = ""
+    }
+  }
+
+  useEffect(() => {
+    SVG && SVG.addEventListener("click", showinput)
+    return () => {
+      SVG && SVG.removeEventListener("click", showinput)
+    }
+  })
+
   return (
     <div className="input-checkbox">
-      {/* <input ref={checkboxRef} type="checkbox" /> */}
       <input
         ref={colorInputRef}
         type="color"

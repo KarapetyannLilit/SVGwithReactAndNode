@@ -3,15 +3,12 @@ import { ColorSlider } from "./colorSlider"
 import { ColorSliderForColors } from "./colorSliderForColors"
 import { ColorSliderForGradientColors } from "./colorSliderForGradientColor"
 import { ColorSliderForNotGradientColors } from "./ColorSliderForNotGradientColor"
+import { ColorSliderForSameColors } from "./colorSliderForSameColors"
 import { newInputs } from "./commonFunctions"
 export const ColorInputs = ({ SVG, globalInfo }) => {
   const [filterdFill, setfilterdFill] = useState([])
   const [filterdStroke, setfilterdStroke] = useState([])
   const [filterdColor, setfilterdColor] = useState([])
-
-  const mergeButton = useRef()
-  const elms = []
-  const checks = []
 
   const colors = useRef()
   const gradAndColors = useRef()
@@ -106,12 +103,16 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
         <div className="inputs">
           With Colors
           {filterdColor.map((color) => (
-            <ColorSliderForColors
-              value={color}
-              elements={globalInfo.groupedElementsByColor[color].element}
-              SVG={SVG}
-              name={color}
-            />
+            <div>
+              <ColorSliderForColors
+                value={color}
+                elements={globalInfo.groupedElementsByColor[color].element}
+                SVG={SVG}
+                name={color}
+                setfilterdColor={setfilterdColor}
+                filterdColor={filterdColor}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -154,12 +155,9 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 type={"fill"}
                 SVG={SVG}
                 name={className}
-                mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
                 setfilterdColor={setfilterdColor}
-                elms={elms}
-                checks={checks}
               />
             ))}
           </div>
@@ -180,12 +178,9 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 type={"stroke"}
                 SVG={SVG}
                 name={className}
-                mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
                 setfilterdColor={setfilterdColor}
-                elms={elms}
-                checks={checks}
               />
             ))}
           </div>
@@ -205,12 +200,9 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 type={"fill"}
                 SVG={SVG}
                 name={className}
-                mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
                 setfilterdColor={setfilterdColor}
-                elms={elms}
-                checks={checks}
               />
             ))}
           </div>
@@ -231,12 +223,9 @@ export const ColorInputs = ({ SVG, globalInfo }) => {
                 type={"stroke"}
                 SVG={SVG}
                 name={className}
-                mergeRef={mergeButton}
                 setfilterdFill={setfilterdFill}
                 setfilterdStroke={setfilterdStroke}
                 setfilterdColor={setfilterdColor}
-                elms={elms}
-                checks={checks}
               />
             ))}
           </div>

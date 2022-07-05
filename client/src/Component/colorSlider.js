@@ -6,18 +6,13 @@ export const ColorSlider = ({
   value,
   elements,
   type,
-  mergeRef,
   SVG,
   setfilterdFill,
   setfilterdStroke,
   setfilterdColor,
-  checks,
-  elms,
   name,
 }) => {
   const colorInputRef = useRef()
-  const checkboxRef = useRef()
-  const globalInfo = GlobalObj()
   useEffect(() => {
     colorInputRef.current.value = value
   }, [value])

@@ -2,14 +2,14 @@ import React, { useRef, useEffect } from "react"
 import { clicked, GlobalObj, rgb2hex } from "."
 import { newInputs } from "./commonFunctions"
 
-export const ColorSliderForNotGradientColors = ({
+export const ColorSliderForSameColors = ({
   value,
+  element,
   elements,
   SVG,
   setfilterdColor,
-  checks,
-  elms,
-  name,
+  checkboxColorRef,
+  filterdColor,
 }) => {
   const colorInputRef = useRef()
   const checkboxRef = useRef()
@@ -20,9 +20,8 @@ export const ColorSliderForNotGradientColors = ({
 
   let inputColor
   if (colorInputRef.current) {
-    inputColor = colorInputRef.current.value
+    inputColor = value
   }
-
   const changeColor = (e, colorRef) => {
     const newColor = e.target.value
 
@@ -40,23 +39,52 @@ export const ColorSliderForNotGradientColors = ({
       }
     }
 
-    elements.forEach((element) => {
-      changeElementPropColor("fill")(element)
-      changeElementPropColor("stroke")(element)
-    })
+    const hasStop = element.tagName.includes("stop")
+    if (hasStop) {
+      element.setAttribute("stop-color", newColor)
+      return
+    }
+
+    changeElementPropColor("fill")(element)
+    changeElementPropColor("stroke")(element)
     inputColor = newColor
     colorRef.current.value = newColor
   }
+
+  const addNewInput = (inputref, element) => {
+    if (colorInputRef.current.value !== value) {
+      filterdColor.push(colorInputRef.current.value)
+      const fnewfilterdColor = Array.from(new Set(filterdColor))
+      // globalInfo.groupedElementsByColor[colorInputRef.current.value] = {
+      //   element: [element],
+      // }
+      clicked(SVG)
+      setfilterdColor(fnewfilterdColor)
+    }
+    if (globalInfo.groupedElementsByColor[value].element.length === 1) {
+      checkboxColorRef.current.style.display = "none"
+    }
+  }
+
+  useEffect(() => {
+    checkboxColorRef.current.addEventListener("change", function () {
+      if (this.checked) {
+        return
+      } else {
+        if (colorInputRef.current && element) {
+          const inputref = colorInputRef.current
+          addNewInput(inputref, element)
+        }
+      }
+    })
+  }, [])
+
   const showinput = (e) => {
     const target = e.target
     if (target) {
-      const children = Array.from(elements)
-      for (const elem of children) {
-        if (elem.classList.value === target.classList.value) {
-          colorInputRef.current.style.filter =
-            "drop-shadow(16px 16px 10px black)"
-          return
-        }
+      if (element.classList.value === target.classList.value) {
+        colorInputRef.current.style.filter = "drop-shadow(16px 16px 10px black)"
+        return
       }
       colorInputRef.current.style.filter = ""
     }

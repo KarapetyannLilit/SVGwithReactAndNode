@@ -1,11 +1,20 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { clicked, GlobalObj, rgb2hex } from "."
+import { ColorSliderForSameColors } from "./colorSliderForSameColors"
 import { newInputs } from "./commonFunctions"
 
-export const ColorSliderForColors = ({ value, elements, SVG }) => {
+export const ColorSliderForColors = ({
+  value,
+  elements,
+  SVG,
+  setfilterdColor,
+  filterdColor,
+}) => {
   const colorInputRef = useRef()
-  const checkboxRef = useRef()
-  const globalInfo = GlobalObj()
+  const btnShowAllColors = useRef()
+  const allInputsWithSameColor = useRef()
+  const [newColor, setnewColor] = useState(value)
+
   useEffect(() => {
     colorInputRef.current.value = value
   }, [value])
@@ -16,44 +25,34 @@ export const ColorSliderForColors = ({ value, elements, SVG }) => {
   }
 
   const changeColor = (e, colorRef) => {
-    elements.map((element) => {
+    const newColor = e.target.value
+
+    const changeElementPropColor = (prop) => (element) => {
+      const computedStyle = window.getComputedStyle(element, null)
+      const fillOrStroke = computedStyle.getPropertyValue(prop)
+
       if (
-        rgb2hex(
-          window.getComputedStyle(element, null).getPropertyValue("fill")
-        ) === inputColor ||
-        element.getAttribute("fill") === inputColor
+        fillOrStroke !== "none" &&
+        (rgb2hex(fillOrStroke) === inputColor ||
+          element.getAttribute(prop) === inputColor)
       ) {
-        if (
-          !element.tagName.includes("stop") &&
-          window.getComputedStyle(element, null).getPropertyValue("fill") !==
-            "none"
-        ) {
-          element.style["fill"] = e.target.value
-          return
-        }
-      }
-      if (
-        rgb2hex(
-          window.getComputedStyle(element, null).getPropertyValue("stroke")
-        ) === inputColor ||
-        element.getAttribute("stroke") === inputColor
-      ) {
-        if (
-          !element.tagName.includes("stop") &&
-          window.getComputedStyle(element, null).getPropertyValue("stroke") !==
-            "none"
-        ) {
-          element.style["stroke"] = e.target.value
-          return
-        }
-      }
-      if (element.tagName.includes("stop")) {
-        element.setAttribute("stop-color", e.target.value)
+        element.style[prop] = newColor
         return
       }
+    }
+
+    elements.forEach((element) => {
+      const hasStop = element.tagName.includes("stop")
+      if (hasStop) {
+        element.setAttribute("stop-color", newColor)
+        return
+      }
+      changeElementPropColor("fill")(element)
+      changeElementPropColor("stroke")(element)
     })
-    inputColor = e.target.value
-    colorRef.current.value = e.target.value
+
+    colorRef.current.value = newColor
+    setnewColor(newColor)
   }
 
   const showinput = (e) => {
@@ -78,6 +77,22 @@ export const ColorSliderForColors = ({ value, elements, SVG }) => {
     }
   })
 
+  useEffect(() => {
+    allInputsWithSameColor.current.style.display = "none"
+    if (elements.length > 5 || elements.length === 1) {
+      btnShowAllColors.current.style.display = "none"
+    }
+    btnShowAllColors.current.addEventListener("change", function () {
+      if (this.checked) {
+        allInputsWithSameColor.current.style.display = "block"
+        colorInputRef.current.style.display = "none"
+      } else {
+        allInputsWithSameColor.current.style.display = "none"
+        colorInputRef.current.style.display = "block"
+      }
+    })
+  }, [])
+
   return (
     <div className="input-checkbox">
       <input
@@ -85,6 +100,22 @@ export const ColorSliderForColors = ({ value, elements, SVG }) => {
         type="color"
         onChange={(e) => changeColor(e, colorInputRef)}
       />
+      <input ref={btnShowAllColors} type={"checkbox"}></input>
+      <div ref={allInputsWithSameColor}>
+        {elements.map((elem, item) => (
+          <ColorSliderForSameColors
+            key={item}
+            value={newColor}
+            element={elem}
+            elements={elements}
+            SVG={SVG}
+            name={value}
+            setfilterdColor={setfilterdColor}
+            checkboxColorRef={btnShowAllColors}
+            filterdColor={filterdColor}
+          />
+        ))}
+      </div>
     </div>
   )
 }

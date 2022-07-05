@@ -115,7 +115,6 @@ const setObj = (className, type, node, color) => {
   }
   if (color in globalObj.groupedElementsByColor) {
     globalObj.groupedElementsByColor[color]["element"].push(node)
-    globalObj.groupedElementsByColor[color]["type"].push(type)
     return
   } else {
     if (
@@ -134,7 +133,6 @@ const setObj = (className, type, node, color) => {
         return
       }
       globalObj.groupedElementsByColor[color] = { element: [node] }
-      globalObj.groupedElementsByColor[color]["type"] = [type]
     }
   }
 }

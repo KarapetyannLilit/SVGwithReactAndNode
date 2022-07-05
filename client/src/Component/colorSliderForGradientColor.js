@@ -27,12 +27,13 @@ export const ColorSliderForGradientColors = ({ value, element, SVG }) => {
   }
 
   const changeColor = (e, colorRef) => {
+    const newColor = e.target.value
     if (element.tagName.includes("stop")) {
-      element.setAttribute("stop-color", e.target.value)
+      element.setAttribute("stop-color", newColor)
       return
     }
-    inputColor = e.target.value
-    colorRef.current.value = e.target.value
+    inputColor = newColor
+    colorRef.current.value = newColor
   }
 
   return (
